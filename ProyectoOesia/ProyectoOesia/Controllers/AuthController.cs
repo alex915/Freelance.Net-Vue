@@ -55,7 +55,7 @@ namespace ProyectoOesia.Controllers
             if (userSigninResult)
             {
                 _logger.LogInformation("User login ok");
-                return Ok(GenerateJwt(user, new List<string>()));
+                return Ok(GenerateJwt(user, await _userManager.GetRolesAsync(user)));
             }
             _logger.LogError("User cannot login");
             return BadRequest("Email or password incorrect.");
@@ -72,9 +72,10 @@ namespace ProyectoOesia.Controllers
 
             if (userCreateResult.Succeeded)
             {
+                _logger.LogInformation("User registered");
                 return Created(string.Empty, string.Empty);
             }
-
+            _logger.LogError("Imposible to register "+user.Email);
             return Problem(userCreateResult.Errors.First().Description, null, 500);
         }
 

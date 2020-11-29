@@ -1,6 +1,7 @@
 import Axios from 'axios';
 
 class AuthService {
+    //llama a la api mediante axios y devuelve la promesa
     public login(email: string, password: string) {
         return Axios.get(`./api/auth?email=${email}&password=${password}`);
     }

@@ -24,30 +24,35 @@ import { AxiosResponse } from "axios";
 
 @Component
 export default class Login extends Vue {
+    //propiedades del v-model
   public email!: string;
   public password!: string;
   public showLoading!: boolean;
-
+    //inicializacion de las propiedades del v-model
   public created() {
     this.email = "";
     this.password = "";
     this.showLoading = false;
   }
-
-  public login(): void {
-    
+    //metodos de la clase Login
+    public login(): void {
+      //inicia el spinner
     this.showLoading = true;
+    //llama al metodo login del servicio y resuelve la promesa
     authService
     .login(this.email, this.password)
-    .then((response: AxiosResponse)=> {
+        .then((response: AxiosResponse) => {
+        //si hay exito guarda el token en la store y redirige a home
       const token = response.data;
       this.$store.dispatch('setToken', token);
       this.$router.push({ name: 'Home'});
     })
-    .catch((error: Error) => {
+        .catch((error: Error) => {
+        //si da error, lo muestra por consola
       console.log(error);
     })
-    .finally(() => {
+        .finally(() => {
+        //siempre se va a ejecutar. Esconde un spinner
       this.showLoading = false;
     })
     console.log(this.email, this.password);

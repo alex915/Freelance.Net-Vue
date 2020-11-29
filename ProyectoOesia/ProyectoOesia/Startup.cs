@@ -11,6 +11,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Models;
+using ProyectoOesia.Services;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -27,22 +28,15 @@ namespace ProyectoOesia
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
-            //services.AddSpaStaticFiles(configuration =>
-            //{
-            //    configuration.RootPath = "spa/dist";
-            //});
-
             services.Configure<JwtSettings>(Configuration.GetSection("Jwt"));
-
+            //Crea contexto de datos
             services.AddDbContext<Data.ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration["ConnectionString"], b => b.MigrationsAssembly("Data")));
 
-
+            //seguridad usuario
             services.AddIdentityCore<User>(options =>
             {
                 options.SignIn.RequireConfirmedAccount = false;
@@ -58,6 +52,11 @@ namespace ProyectoOesia
                .AddDefaultTokenProviders();
 
             var jwtSettings = Configuration.GetSection("Jwt").Get<JwtSettings>();
+            
+            //inyeccion de dependencias
+            services.AddScoped<IService, Service>();
+            
+            //seguridad api
             services
                 .AddAuthorization()
                 .AddAuthentication(options =>
@@ -77,8 +76,11 @@ namespace ProyectoOesia
                         ClockSkew = TimeSpan.Zero
                     };
                 });
+
+            //incluir api
             services.AddControllers();
 
+            //swagger
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Proyecto Oesia", Version = "v1" });
@@ -109,7 +111,6 @@ namespace ProyectoOesia
             });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -125,15 +126,9 @@ namespace ProyectoOesia
             }
 
             app.UseHttpsRedirection();
-           
-            if (!env.IsDevelopment())
-            {
-                //app.UseSpaStaticFiles();
-            }
             app.UseStaticFiles();
             app.UseFileServer();
             app.UseDefaultFiles();
-
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
@@ -144,19 +139,6 @@ namespace ProyectoOesia
                     pattern: "{controller}/{action=Index}/{id?}");
             });
            
-            if (env.IsDevelopment())
-            {
-                //app.UseSpa(spa =>
-                //{
-                //    spa.Options.SourcePath = "spa";
-                //    spa.UseVueCli(
-
-                //        npmScript: "serve",
-                //        port: 8080
-                //        );
-                //    // spa.UseProxyToSpaDevelopmentServer("http://localhost:8080");
-                //});
-            }
         }
     }
 }
