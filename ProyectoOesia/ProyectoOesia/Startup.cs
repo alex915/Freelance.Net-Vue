@@ -79,7 +79,8 @@ namespace ProyectoOesia
 
             //incluir api
             services.AddControllers();
-
+            //incluye spa
+            services.AddSpaStaticFiles(x=>x.RootPath = "wwwroot");
             //swagger
             services.AddSwaggerGen(c =>
             {
@@ -126,7 +127,7 @@ namespace ProyectoOesia
             }
 
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
+            app.UseSpaStaticFiles();
             app.UseFileServer();
             app.UseDefaultFiles();
             app.UseRouting();
@@ -138,6 +139,12 @@ namespace ProyectoOesia
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");
             });
+            app.UseSpa(x => { 
+                x.Options.SourcePath = "spa";
+                x.UseVueCli(npmScript: "serve", port: 8080);
+            });
+            
+            
            
         }
     }
