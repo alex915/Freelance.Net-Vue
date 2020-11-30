@@ -8,19 +8,26 @@
         hint="Introduzca su email"
         :loading="showLoading"
       ></v-text-field>
-      <v-text-field v-model="password" :outlined="true"
+      <v-text-field v-model="password" outlined
         label="Password"
         hint="Introduzca su password"
         :loading="showLoading"></v-text-field>
       <v-btn color="success" type="submit">Login</v-btn>
     </form>
+     <v-select
+          :items="items"
+          :item-value="string"
+          :item-text="nombre"
+          label="Prueba select"
+          dense
+          outlined
+        ></v-select>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { authService } from "@/services/auth.service";
-import { AxiosResponse } from "axios";
 
 @Component
 export default class Login extends Vue {
@@ -28,11 +35,18 @@ export default class Login extends Vue {
   public email!: string;
   public password!: string;
   public showLoading!: boolean;
+  public items!: object[];
     //inicializacion de las propiedades del v-model
   public created() {
     this.email = "";
     this.password = "";
     this.showLoading = false;
+    this.items.push({nombre : 'obj 1'});
+    this.items.push({nombre : 'obj 2'});
+    this.items.push({nombre : 'obj 3'});
+    this.items.push({nombre : 'obj 4'});
+ 
+   
   }
     //metodos de la clase Login
     public login(): void {
@@ -41,7 +55,7 @@ export default class Login extends Vue {
     //llama al metodo login del servicio y resuelve la promesa
     authService
     .login(this.email, this.password)
-        .then((response: AxiosResponse) => {
+        .then((response: any) => {
         //si hay exito guarda el token en la store y redirige a home
       const token = response.data;
       this.$store.dispatch('setToken', token);
@@ -49,7 +63,8 @@ export default class Login extends Vue {
     })
         .catch((error: Error) => {
         //si da error, lo muestra por consola
-      console.log(error);
+       console.log(error);
+       alert(error);
     })
         .finally(() => {
         //siempre se va a ejecutar. Esconde un spinner
