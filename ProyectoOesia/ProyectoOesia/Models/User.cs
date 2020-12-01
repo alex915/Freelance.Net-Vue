@@ -7,11 +7,11 @@ namespace Models
     {
         public User()
         {
-            Companies = new HashSet<Company>();
+          
             Contacts = new HashSet<Contact>();
         }
 
-        public virtual ICollection<Company> Companies { get; set; }
+        public virtual Company Company { get; set; }
         public virtual ICollection<Contact> Contacts { get; set; }
     }
 }

@@ -17,11 +17,10 @@ namespace Data
         }
 
         public DbSet<Models.Activity> Activity { get; set; }
-
-        //public virtual DbSet<Activity> Activities { get; set; }
-        //public virtual DbSet<Company> Companies { get; set; }
-        //public virtual DbSet<Contact> Contacts { get; set; }
-        //public virtual DbSet<SocialMedia> SocialMedias { get; set; }
+        public virtual DbSet<Activity> Activities { get; set; }
+        public virtual DbSet<Company> Companies { get; set; }
+        public virtual DbSet<Contact> Contacts { get; set; }
+        public virtual DbSet<SocialMedia> SocialMedias { get; set; }
         //public virtual DbSet<User> Users { get; set; }
 
 
