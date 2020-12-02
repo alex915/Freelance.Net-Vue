@@ -10,7 +10,8 @@ namespace Models
           
             Contacts = new HashSet<Contact>();
         }
-
+        public string Name { get; set; }
+        public string LastName { get; set; }
         public virtual Company Company { get; set; }
         public virtual ICollection<Contact> Contacts { get; set; }
     }

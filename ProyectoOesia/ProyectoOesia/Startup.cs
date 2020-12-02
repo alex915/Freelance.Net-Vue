@@ -32,9 +32,9 @@ namespace ProyectoOesia
         {
             services.Configure<JwtSettings>(Configuration.GetSection("Jwt"));
             //Crea contexto de datos
-            services.AddDbContext<Data.ApplicationDbContext>(options =>
+            services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
-                    Configuration["ConnectionString"], b => b.MigrationsAssembly("Data")));
+                    Configuration["ConnectionString"]));
 
             //seguridad usuario
             services.AddIdentityCore<User>(options =>
