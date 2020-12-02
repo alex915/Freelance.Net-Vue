@@ -13,13 +13,14 @@ namespace ProyectoOesia.Controllers
     [ApiController]
     public class SearchController : ControllerBase
     {
-        private readonly ApplicationDbContext _context; 
+        private readonly ApplicationDbContext _context;
         private readonly ILogger<SearchController> _logger;
 
-        public SearchController(ApplicationDbContext context, ILogger<SearchController> logger) {
+        public SearchController(ApplicationDbContext context, ILogger<SearchController> logger)
+        {
             _context = context;
             _logger = logger;
-        
+
         }
         [HttpGet]
         public async Task<IActionResult> SearchWorkers(string search)
@@ -30,11 +31,13 @@ namespace ProyectoOesia.Controllers
                 return Ok(data);
 
             }
-            else {
+            else
+            {
                 return NotFound("NO EXISTE NA!");
             }
-            
-             
+
+
         }
+
     }
 }
