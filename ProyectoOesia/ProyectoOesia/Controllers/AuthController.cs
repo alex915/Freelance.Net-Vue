@@ -43,7 +43,8 @@ namespace ProyectoOesia.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAsync(string email, string password)
         {
-            var user = _userManager.Users.SingleOrDefault(u => u.UserName == email);
+            var user = _userManager.Users
+                .SingleOrDefault(u => u.UserName == email);
             if (user is null)
             {
                 _logger.LogError("User not found");
