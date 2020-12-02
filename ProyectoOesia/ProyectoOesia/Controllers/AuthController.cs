@@ -41,7 +41,7 @@ namespace ProyectoOesia.Controllers
 
         // GET: api/<ValuesController>
         [HttpGet]
-        public async Task<IActionResult> GetAsync(string email, string password)
+        public async Task<IActionResult> Login(string email, string password)
         {
             var user = _userManager.Users
                 .SingleOrDefault(u => u.UserName == email);
