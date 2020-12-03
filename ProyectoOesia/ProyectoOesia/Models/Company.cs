@@ -24,6 +24,7 @@ namespace Models
         public int? MaxDistance { get; set; }
         public string Description { get; set; }
         public bool? Availability { get; set; }
+        public bool? FullTime { get; set; }
         public string UserId { get; set; }
 
         public virtual Activity Activity { get; set; }

@@ -19,7 +19,7 @@
           hint="Introduzca su apellido"
         ></v-text-field>
       </v-col>
-      <v-col cols="6">
+      <v-col cols="12">
         <v-text-field
           v-model="email"
           :outlined="true"
@@ -56,22 +56,18 @@
       v-model="company"
       label="Crear perfil como empresa"
     ></v-checkbox>
-    <create-company v-if="company" />
+    
 
     <v-btn color="primary" type="submit" :disabled="!isValid">Registrar</v-btn>
   </v-form>
 </template>
 
 <script lang="ts">
-import CreateCompany from "@/components/CreateCompany.vue";
+
 import { authService } from "@/services/auth.service";
 import { Component, Vue } from "vue-property-decorator";
 
-@Component({
-  components: {
-     "create-company": CreateCompany,
-  },
-})
+
 export default class Login extends Vue {
   public email = "";
   public isValid = true;

@@ -52,6 +52,7 @@ export default class Login extends Vue {
     public login(): void {
       //inicia el spinner
     this.showLoading = true;
+
     //llama al metodo login del servicio y resuelve la promesa
     authService
     .login(this.email, this.password)
