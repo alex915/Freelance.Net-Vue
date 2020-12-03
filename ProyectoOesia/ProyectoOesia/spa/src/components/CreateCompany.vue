@@ -360,7 +360,7 @@ export default class CreateCompany extends Vue {
   public province = "";
   public provinceList = [];
   public pc = "";
-  public country = "";
+  public country = "España";
   public ext = "";
   public phone = "";
   public email = "";
@@ -405,10 +405,9 @@ export default class CreateCompany extends Vue {
       MaxDistance: this.maxDistance,
       Description: this.description,
       Availability: this.availability,
-      FullTime: this.fullTime,
+      FullTime: this.fullTime
     };
-    //companiesService.createCompany(company).then()
-    console.log(company);
+    companiesService.createCompany(company).then(x=>console.log(x.data)).catch(x=>console.log(x));
   }
 }
 </script>

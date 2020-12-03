@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Data;
 using Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace ProyectoOesia.Controllers
 {
@@ -23,9 +21,9 @@ namespace ProyectoOesia.Controllers
 
         // GET: api/Companies
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Company>>> GetCompanies()
+        public async Task<ActionResult> GetCompanies()
         {
-            return await _context.Companies.ToListAsync();
+            return Ok(await _context.Users.Include(x=>x.Company).Where(x=>x.Company!=null).ToListAsync());
         }
 
         // GET: api/Companies/5
@@ -78,6 +76,7 @@ namespace ProyectoOesia.Controllers
         [HttpPost]
         public async Task<ActionResult<Company>> PostCompany(Company company)
         {
+            var a = User.Claims.First().Value;
             _context.Companies.Add(company);
             await _context.SaveChangesAsync();
             return CreatedAtAction(nameof(GetCompany), new { id = company.Id },company);

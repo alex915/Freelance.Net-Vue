@@ -14,14 +14,6 @@
         :loading="showLoading"></v-text-field>
       <v-btn color="success" type="submit">Login</v-btn>
     </form>
-     <v-select
-          :items="items"
-          :item-value="string"
-          :item-text="nombre"
-          label="Prueba select"
-          dense
-          outlined
-        ></v-select>
   </div>
 </template>
 
@@ -40,13 +32,7 @@ export default class Login extends Vue {
   public created() {
     this.email = "";
     this.password = "";
-    this.showLoading = false;
-    this.items.push({nombre : 'obj 1'});
-    this.items.push({nombre : 'obj 2'});
-    this.items.push({nombre : 'obj 3'});
-    this.items.push({nombre : 'obj 4'});
- 
-   
+    this.showLoading = false;   
   }
     //metodos de la clase Login
     public login(): void {
