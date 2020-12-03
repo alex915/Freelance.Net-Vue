@@ -32,14 +32,14 @@ namespace ProyectoOesia.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Activity>> GetActivity(int id)
         {
-            var activity = await _context.Activity.FindAsync(id);
+            var activity = await _context.Activity.Include(x=>x.Companies).FirstOrDefaultAsync(x => x.Id == id);
 
             if (activity == null)
             {
                 return NotFound();
             }
-
-            return activity;
+            
+            return Ok(activity);
         }
 
         // PUT: api/Activities/5
