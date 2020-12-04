@@ -25,7 +25,7 @@ export default class Home extends Vue {
   }
   public mounted() {
     if (this.token) {
-      authService.getUser(this.token).then((x) => {
+      authService.getUser().then((x) => {
         this.user = x.data;
         console.log(this.user);
         if (x.data.company.id == -1) {

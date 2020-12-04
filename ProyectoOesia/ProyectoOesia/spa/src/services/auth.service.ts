@@ -10,13 +10,12 @@ class AuthService {
     public register(user: object) {
         return Axios.post(`./api/auth`,user);
     }
+    public update(user: object) {
+        return Axios.put(`./api/auth`,user);
+    }
    
-    public getUser(token: string) {
-        return Axios.get(`./api/auth/user`, {
-            headers: {
-              'Authorization': `Bearer ${token}` 
-            }
-          });
+    public getUser() {
+        return Axios.get(`./api/auth/user`);
     }
 }
 
