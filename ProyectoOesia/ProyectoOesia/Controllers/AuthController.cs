@@ -96,40 +96,6 @@ namespace ProyectoOesia.Controllers
             return Problem(userCreateResult.Errors.First().Description, null, 500);
         }
 
-
-        [HttpPut]
-        public async Task<IActionResult> UpdateUser([FromBody] UserDtoUpdate userDto)
-        {
-            var user = await _userManager.GetUserAsync(User);
-            user.Email = userDto.Email;
-            user.UserName = userDto.Email;
-            user.LastName = userDto.LastName;
-            user.FirstName = userDto.FirstName;
-            user.PhoneNumber = userDto.Phone;
-            user.Ext = userDto.Ext;
-            if (userDto.NewPassword != null)
-            {
-                await _userManager.ChangePasswordAsync(user, userDto.OldPassword, userDto.NewPassword);
-            }
-             _context.Update(user);
-            await _context.SaveChangesAsync();
-            return Ok( string.Empty);
-
-        }
-
-
-        [HttpDelete]
-        public async Task<IActionResult> DeleteUser(string id)
-        {
-            var user = await _userManager.GetUserAsync(User);
-           
-            _context.Remove(user);
-            await _context.SaveChangesAsync();
-            return Ok(string.Empty);
-
-        }
-
-
         [HttpGet("User")]
         public async Task<IActionResult> GetUser()
         {
