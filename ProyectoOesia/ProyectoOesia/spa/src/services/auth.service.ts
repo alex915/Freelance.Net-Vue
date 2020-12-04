@@ -7,11 +7,16 @@ class AuthService {
         return Axios.get(`./api/auth?email=${email}&password=${password}`);
     }
 
-    public register(email: string, password: string) {
-        return Axios.post(`./api/auth/signup`, {
-            email,
-            password,
-        });
+    public register(user: object) {
+        return Axios.post(`./api/auth`,user);
+    }
+   
+    public getUser(token: string) {
+        return Axios.get(`./api/auth/user`, {
+            headers: {
+              'Authorization': `Bearer ${token}` 
+            }
+          });
     }
 }
 

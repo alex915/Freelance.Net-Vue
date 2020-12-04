@@ -1,20 +1,38 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    {{ token }}
+    <img alt="Vue logo" src="../assets/logo.png" />
+    <div v-if="token">
+      {{ token }}
+    </div>
+    <div v-if="user.companyId != null">
+      {{ user.company }}
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue } from "vue-property-decorator";
+import { authService } from "@/services/auth.service";
 
 @Component({
-  components: {
-  },
+  components: {},
 })
 export default class Home extends Vue {
+  public user = null;
+
   public get token(): string {
-    return this.$store.getters['getToken'];
+    return this.$store.getters["getToken"];
+  }
+  public mounted() {
+    if (this.token) {
+      authService.getUser(this.token).then((x) => {
+        this.user = x.data;
+        console.log(this.user);
+        if (x.data.company.id == -1) {
+          this.$router.push({ name: "New Company" });
+        }
+      });
+    }
   }
 }
 </script>

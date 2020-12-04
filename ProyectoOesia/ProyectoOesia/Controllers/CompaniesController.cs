@@ -76,7 +76,8 @@ namespace ProyectoOesia.Controllers
         [HttpPost]
         public async Task<ActionResult<Company>> PostCompany(Company company)
         {
-            var a = User.Claims.First().Value;
+            var userId = User.Claims.First().Value;
+            company.UserId = userId;
             _context.Companies.Add(company);
             await _context.SaveChangesAsync();
             return CreatedAtAction(nameof(GetCompany), new { id = company.Id },company);

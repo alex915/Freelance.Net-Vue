@@ -25,8 +25,8 @@ namespace Models
         public string Description { get; set; }
         public bool? Availability { get; set; }
         public bool? FullTime { get; set; }
-        public string UserId { get; set; }
 
+        public string UserId { get; set; }
         public virtual Activity Activity { get; set; }
         public virtual User User { get; set; }
         public virtual ICollection<SocialMedia> SocialMedia { get; set; }

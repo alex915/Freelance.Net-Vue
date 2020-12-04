@@ -343,7 +343,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { Component, Prop } from "vue-property-decorator";
+import { Component } from "vue-property-decorator";
 import { locationService } from "@/services/locations.service";
 import { activitiesService } from "@/services/activities.service";
 import { companiesService } from "@/services/companies.service";
@@ -370,7 +370,7 @@ export default class CreateCompany extends Vue {
   public availability = true;
   public fullTime = true;
   public remoteWork = true;
-  public requiredRules = (v: any) => !!v || "Required";
+  public requiredRules = (v: string) => !!v || "Required";
 
   public mounted() {
     locationService
@@ -379,10 +379,12 @@ export default class CreateCompany extends Vue {
       .catch((err) => console.log(err));
     activitiesService
       .getActivities()
-      .then((x) => (this.activities = x.data))
+      .then((x) => (this.activities = x.data.$values))
       .catch((err) => console.log(err));
   }
-
+ public get token(): string {
+    return this.$store.getters["getToken"];
+  }
   public sum() {
     this.maxDistance += 25;
   }
@@ -407,7 +409,12 @@ export default class CreateCompany extends Vue {
       Availability: this.availability,
       FullTime: this.fullTime
     };
-    companiesService.createCompany(company).then(x=>console.log(x.data)).catch(x=>console.log(x));
+    companiesService.createCompany(company, this.token).
+    then(x=>{
+      console.log(x.data);
+      this.$router.push('Home');
+    })
+    .catch(x=>console.log(x));
   }
 }
 </script>

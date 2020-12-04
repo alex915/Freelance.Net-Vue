@@ -15,6 +15,7 @@ using ProyectoOesia.Services;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.Json.Serialization;
 using VueCliMiddleware;
 
 namespace ProyectoOesia
@@ -50,6 +51,7 @@ namespace ProyectoOesia
             }).AddRoles<IdentityRole>()
                .AddEntityFrameworkStores<ApplicationDbContext>()
                .AddDefaultTokenProviders();
+            
 
             var jwtSettings = Configuration.GetSection("Jwt").Get<JwtSettings>();
             
@@ -78,7 +80,10 @@ namespace ProyectoOesia
                 });
 
             //incluir api
-            services.AddControllers();
+            services.AddControllers().AddJsonOptions(x =>
+            {
+                x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+            });
             //incluye spa
             services.AddSpaStaticFiles(x=>x.RootPath = "wwwroot");
             //swagger

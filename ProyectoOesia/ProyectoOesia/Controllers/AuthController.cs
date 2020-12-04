@@ -1,6 +1,8 @@
 ﻿using Auth;
+using Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -27,19 +29,22 @@ namespace ProyectoOesia.Controllers
         private readonly JwtSettings _jwtSettings;
 
         private readonly ILogger<AuthController> _logger;
+        private readonly ApplicationDbContext _context;
+
         public AuthController(
                 UserManager<User> userManager,
                 RoleManager<IdentityRole> roleManager,
                 IOptionsSnapshot<JwtSettings> jwtSettings,
-                ILogger<AuthController> logger)
+                ILogger<AuthController> logger,
+                ApplicationDbContext context)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _jwtSettings = jwtSettings.Value;
             _logger = logger;
+            _context = context;
         }
 
-        // GET: api/<ValuesController>
         [HttpGet]
         public async Task<IActionResult> GetAsync(string email, string password)
         {
@@ -62,22 +67,55 @@ namespace ProyectoOesia.Controllers
             return BadRequest("Email or password incorrect.");
         }
 
-        [HttpPost("signup")]
+        [HttpPost]
         public async Task<IActionResult> SignUp([FromBody] UserDto userDto)
         {
             var user = new User();
             user.Email = userDto.Email;
             user.UserName = userDto.Email;
+            user.LastName = userDto.LastName;
+            user.FirstName = userDto.FirstName;
+            user.PhoneNumber = userDto.Phone;
+            user.Ext = userDto.Ext;
 
             var userCreateResult = await _userManager.CreateAsync(user, userDto.Password);
-
             if (userCreateResult.Succeeded)
             {
+                if (userDto.Company)
+                {
+                    await _userManager.AddToRoleAsync(user, "Worker");
+                }
+                else
+                {
+                    await _userManager.AddToRoleAsync(user, "User");
+                }
                 _logger.LogInformation("User registered");
                 return Created(string.Empty, string.Empty);
             }
-            _logger.LogError("Imposible to register "+user.Email);
+            _logger.LogError("Imposible to register " + user.Email);
             return Problem(userCreateResult.Errors.First().Description, null, 500);
+        }
+
+        [HttpGet("User")]
+        public async Task<IActionResult> GetUser()
+        {
+            var user = await _userManager.GetUserAsync(User);
+
+            if (User.IsInRole("Worker"))
+            {
+
+                user = await _context.Users.Include(x => x.Company).Where(x => x.Id.Equals(user.Id)).FirstOrDefaultAsync();
+                if (user.Company == null)
+                {
+                    user.Company = new Company()
+                    {
+                        Id = -1
+                    };
+                }
+            }
+
+
+            return Ok(user);
         }
 
         private string GenerateJwt(User user, IList<string> roles)
@@ -107,5 +145,6 @@ namespace ProyectoOesia.Controllers
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
+
     }
 }
