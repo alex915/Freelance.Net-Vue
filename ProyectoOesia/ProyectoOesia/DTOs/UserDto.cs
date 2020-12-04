@@ -20,7 +20,7 @@
         public string LastName { get; set; }
         public string Ext { get; set; }
         public string Phone { get; set; }
-        public bool Company { get; set; }
+       
 
     }
 }

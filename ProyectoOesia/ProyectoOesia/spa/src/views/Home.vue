@@ -27,6 +27,7 @@ export default class Home extends Vue {
     if (this.token) {
       authService.getUser().then((x) => {
         this.user = x.data;
+        this.$store.dispatch("setUser", this.user);
         console.log(this.user);
         if (x.data.company.id == -1) {
           this.$router.push({ name: "New Company" });

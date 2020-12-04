@@ -20,6 +20,12 @@ const routes: Array<RouteConfig> = [
   
     component: () => import('../views/Search.vue')
   },
+  {
+    path: '/profile',
+    name: 'UpdateUser',
+  
+    component: () => import('../views/auth/UpdateUser.vue')
+  },
     {
       //ruta para acceder al login
       path: '/login',

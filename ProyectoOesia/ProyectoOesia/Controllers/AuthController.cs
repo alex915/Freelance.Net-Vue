@@ -114,7 +114,6 @@ namespace ProyectoOesia.Controllers
                 }
             }
 
-
             return Ok(user);
         }
 
@@ -125,12 +124,21 @@ namespace ProyectoOesia.Controllers
             user.LastName = userDto.LastName;
             user.FirstName = userDto.FirstName;
             user.Ext = userDto.Ext;
+            if (!await _userManager.CheckPasswordAsync(user, userDto.OldPassword))
+            {
+                return Conflict();
+            }
+
             var tokenEmail = await _userManager.GenerateChangeEmailTokenAsync(user, userDto.Email);
             var tokenPhone = await _userManager.GenerateChangePhoneNumberTokenAsync(user, userDto.Phone);
             await _userManager.ChangeEmailAsync(user, userDto.Email, tokenEmail);
             await _userManager.ChangePhoneNumberAsync(user, userDto.Phone, tokenPhone);
-            await _userManager.ChangePasswordAsync(user, userDto.NewPassword, userDto.OldPassword);
-           
+            if (userDto.NewPassword != null)
+            {
+                await _userManager.ChangePasswordAsync(user, userDto.NewPassword, userDto.OldPassword);
+
+            }
+
             var userUpdateResult = await _userManager.UpdateAsync(user);
             if (userUpdateResult.Succeeded)
             {
@@ -140,8 +148,6 @@ namespace ProyectoOesia.Controllers
             _logger.LogError("Imposible to register " + user.Email);
             return Problem(userUpdateResult.Errors.First().Description, null, 500);
         }
-
-
 
 
         private string GenerateJwt(User user, IList<string> roles)
