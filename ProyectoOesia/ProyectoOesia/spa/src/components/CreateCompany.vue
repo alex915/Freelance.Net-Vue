@@ -412,7 +412,7 @@ export default class CreateCompany extends Vue {
     companiesService.createCompany(company, this.token).
     then(x=>{
       console.log(x.data);
-      this.$router.push('Home');
+      this.$router.push({ name: "Home" });
     })
     .catch(x=>console.log(x));
   }
