@@ -1,5 +1,6 @@
 <template>
   <v-app id="app">
+    <spinner/>
     <!-- <v-navigation-drawer app>
      
   </v-navigation-drawer> -->
@@ -50,7 +51,21 @@
     </v-footer>
   </v-app>
 </template>
-
+<script lang="ts">
+import Vue from 'vue';
+import Component from 'vue-class-component';
+import Spinner from '@/components/Spinner.vue';
+@Component(
+  {
+    components:{
+      "spinner":Spinner,
+    }
+  }
+)
+export default class App extends Vue{
+  
+}
+</script>
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;

@@ -12,6 +12,7 @@ export default new Vuex.Store({
   state: {
     token: '',
     user: {},
+    spinners: 0,
   },
   mutations: {
     setToken: (state, token) => {
@@ -19,7 +20,15 @@ export default new Vuex.Store({
     },
     setUser: (state, user) => {
       state.user = user;
-    }
+    },
+    showSpinner(state) {
+      state.spinners++;
+    },
+    removeSpinner(state) {
+      if (state.spinners > 0) {
+        state.spinners--;
+      }
+    },
   },
   actions: {
     setToken: (state, token) => {
@@ -27,7 +36,13 @@ export default new Vuex.Store({
     },
     setUser: (state, user) => {
       state.commit('setUser', user);
-    }
+    },
+    showSpinner: (state) => {
+      state.commit('showSpinner');
+    },
+    removeSpinner: (state) => {
+      state.commit('removeSpinner');
+    },
   },
   getters: {
     getToken: (state) => {
@@ -35,6 +50,9 @@ export default new Vuex.Store({
     },
     getUser: (state) => {
       return state.user;
+    },
+    spinners: (state) => {
+      return state.spinners;
     }
   },
   plugins: [vuexLocal.plugin]

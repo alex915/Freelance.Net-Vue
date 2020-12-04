@@ -157,6 +157,7 @@ public mounted(){
 
   public update(): void {
     this.showLoading = true;
+    this.$spinner.showSpinner();
     const user = {
       FirstName: this.firstName,
       LastName: this.lastName,
@@ -176,6 +177,7 @@ public mounted(){
       })
       .finally(() => {
         this.showLoading = false;
+        this.$spinner.removeSpinner();
       });
   }
 }

@@ -133,7 +133,7 @@ namespace ProyectoOesia.Controllers
             var tokenPhone = await _userManager.GenerateChangePhoneNumberTokenAsync(user, userDto.Phone);
             await _userManager.ChangeEmailAsync(user, userDto.Email, tokenEmail);
             await _userManager.ChangePhoneNumberAsync(user, userDto.Phone, tokenPhone);
-            if (userDto.NewPassword != null)
+            if (userDto.NewPassword != string.Empty)
             {
                 await _userManager.ChangePasswordAsync(user, userDto.NewPassword, userDto.OldPassword);
 

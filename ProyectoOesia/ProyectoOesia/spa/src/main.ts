@@ -6,9 +6,11 @@ import store from './store';
 import {TokenInterceptor} from '@/interceptors/token.interceptor'
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
+import {spinnerPlugin} from '@/plugins/SpinnerPlugin.ts'
 
 Vue.config.productionTip = false;
 Vue.use(Vuetify);
+Vue.use(spinnerPlugin);
 TokenInterceptor();
 
 new Vue({

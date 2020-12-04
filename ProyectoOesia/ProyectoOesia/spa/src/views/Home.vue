@@ -4,7 +4,7 @@
     <div v-if="token">
       {{ token }}
     </div>
-    <div v-if="user.companyId != null">
+    <div v-if="user && user.companyId != null">
       {{ user.company }}
     </div>
   </div>
@@ -24,8 +24,11 @@ export default class Home extends Vue {
     return this.$store.getters["getToken"];
   }
   public mounted() {
+    
     if (this.token) {
+      this.$spinner.showSpinner();
       authService.getUser().then((x) => {
+        this.$spinner.removeSpinner();
         this.user = x.data;
         this.$store.dispatch("setUser", this.user);
         console.log(this.user);
