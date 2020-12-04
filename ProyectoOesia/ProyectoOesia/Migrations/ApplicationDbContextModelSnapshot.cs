@@ -4,16 +4,14 @@ using Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ProyectoOesia.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201202100045_company")]
-    partial class company
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -204,6 +202,9 @@ namespace ProyectoOesia.Migrations
                     b.Property<string>("Ext")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool?>("FullTime")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Identifier")
                         .HasColumnType("nvarchar(max)");
 
@@ -298,6 +299,12 @@ namespace ProyectoOesia.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<string>("Ext")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
@@ -306,9 +313,6 @@ namespace ProyectoOesia.Migrations
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ProyectoOesia.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201201190917_userdata")]
-    partial class userdata
+    [Migration("20201204013601_users")]
+    partial class users
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -180,8 +180,14 @@ namespace ProyectoOesia.Migrations
                     b.Property<int>("ActivityId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool?>("Availability")
                         .HasColumnType("bit");
+
+                    b.Property<string>("City")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CompanyName")
                         .HasColumnType("nvarchar(max)");
@@ -198,6 +204,9 @@ namespace ProyectoOesia.Migrations
                     b.Property<string>("Ext")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool?>("FullTime")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Identifier")
                         .HasColumnType("nvarchar(max)");
 
@@ -211,9 +220,6 @@ namespace ProyectoOesia.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Province")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("RegOffice")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
@@ -295,6 +301,12 @@ namespace ProyectoOesia.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<string>("Ext")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
@@ -303,9 +315,6 @@ namespace ProyectoOesia.Migrations
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
