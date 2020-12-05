@@ -1,47 +1,9 @@
 <template>
   <v-app id="app">
-    <spinner/>
-    <!-- <v-navigation-drawer app>
-     
-  </v-navigation-drawer> -->
-    <v-app-bar
-      app
-      absolute
-      color="#fcb69f"
-      dark
-      shrink-on-scroll
-      src="https://picsum.photos/1920/1080?random"
-      scroll-target="#scrolling-techniques-2"
-    >
-      <template v-slot:img="{ props }">
-        <v-img
-          v-bind="props"
-          gradient="to top right, rgba(19,84,122,.5), rgba(128,208,199,.8)"
-        ></v-img>
-      </template>
-
-      <v-app-bar-nav-icon></v-app-bar-nav-icon>
-
-      <v-toolbar-title>Title</v-toolbar-title>
-
-      <v-spacer></v-spacer>
-
-      <v-btn icon>
-        <v-icon>mdi-magnify</v-icon>
-      </v-btn>
-
-      <v-btn icon>
-        <v-icon>mdi-heart</v-icon>
-      </v-btn>
-
-      <v-btn icon>
-        <v-icon>mdi-dots-vertical</v-icon>
-      </v-btn>
-    </v-app-bar>
+    <spinner />
+    <headernav />
     <v-main>
-      <!-- Provides the application the proper gutter -->
       <v-container>
-        <!-- If using vue-router -->
         <router-view></router-view>
       </v-container>
     </v-main>
@@ -52,19 +14,18 @@
   </v-app>
 </template>
 <script lang="ts">
-import Vue from 'vue';
-import Component from 'vue-class-component';
-import Spinner from '@/components/Spinner.vue';
-@Component(
-  {
-    components:{
-      "spinner":Spinner,
-    }
-  }
-)
-export default class App extends Vue{
-  
-}
+import Vue from "vue";
+import Component from "vue-class-component";
+import Spinner from "@/components/Spinner.vue";
+import Header from "./components/Header.vue";
+import Menu from "./components/Menu.vue";
+@Component({
+  components: {
+    spinner: Spinner,
+    headernav: Menu,
+  },
+})
+export default class App extends Vue {}
 </script>
 <style>
 #app {
@@ -73,6 +34,8 @@ export default class App extends Vue{
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  background-color: whitesmoke;
+  min-width: 450px;
 }
 
 #nav {
@@ -87,4 +50,9 @@ export default class App extends Vue{
 #nav a.router-link-exact-active {
   color: #42b983;
 }
+
+.container {
+  height: 100%;
+}
+
 </style>

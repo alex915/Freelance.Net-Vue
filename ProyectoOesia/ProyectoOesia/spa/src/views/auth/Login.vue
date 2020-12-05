@@ -1,7 +1,9 @@
 <template>
-  <div id="login" class="padding_top">
-    <v-row justify="center">
-      <v-col cols="11" md="10" lg="8">
+  <section  class="login">
+    <div id="login" class="padding_top">
+    <div>
+      <v-row justify="center">
+      <v-col cols="12" md="11" lg="10">
         <form action class="form" @submit.prevent="login">
           <v-row justify="center" class="pb-6">
             <v-col cols="12">
@@ -12,21 +14,24 @@
             </v-col>
           </v-row>
           <v-row justify="center">
-            <v-col cols="11" sm="8" md="6" lg="6">
+            <v-col cols="12">
               <v-text-field
+                class="input"
                 v-model="email"
                 :outlined="true"
                 label="Email"
                 hint="Introduzca su email"
                 :loading="showLoading"
+                autocomplete="username"
               ></v-text-field>
             </v-col>
           </v-row>
           <v-row justify="center">
-            <v-col cols="11" sm="8" md="6" lg="6">
+            <v-col cols="12">
               <v-text-field
                 v-model="password"
                 outlined
+                autocomplete="current-password"
                 label="Password"
                 hint="Introduzca su password"
                 :loading="showLoading"
@@ -39,13 +44,15 @@
           </v-row>
           <v-row justify="center">
             <v-col>
-              <v-btn color="primary" type="submit">Iniciar Sesion</v-btn>
+              <v-btn color="success" type="submit">Iniciar Sesion</v-btn>
             </v-col>
           </v-row>
         </form>
       </v-col>
     </v-row>
+    </div>
   </div>
+  </section>
 </template>
 
 <script lang="ts">
@@ -105,16 +112,29 @@ li {
 a {
   color: #42b983;
 }
+.login{
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .padding_top {
-  padding: 40px 0;
-  margin: 40px 0;
-  background: rgb(9, 121, 100);
-  background: linear-gradient(
-    279deg,
-    rgba(9, 121, 100, 0.2) 27%,
-    rgba(73, 238, 180, 0.2) 84%,
-    rgba(0, 212, 255, 0.2) 100%
-  );
-  visibility: 10px;
+  /* height: 80vh; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.padding_top > div{
+
+  color: white;
+  padding: 80px 40px;
+  background: rgb(17,37,87);
+background: linear-gradient(308deg, rgba(17,37,87,1) 4%, rgba(17,45,154,1) 24%, rgba(61,160,228,1) 59%, rgba(18,155,241,1) 100%);
+  border-radius: 6px;
+  box-shadow: 1px 2px 12px #ddd;
+}
+
+::v-deep input , ::v-deep label, ::v-deep fieldset , ::v-deep .theme--light {
+  color: white !important;
 }
 </style>

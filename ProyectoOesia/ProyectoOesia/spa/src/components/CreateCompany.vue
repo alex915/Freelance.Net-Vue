@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="padding">
     <v-stepper v-model="em" vertical>
       <v-stepper-step step="1">Datos de la empresa</v-stepper-step>
 
@@ -31,7 +31,7 @@
               :items="activities"
               item-text="title"
               item-value="id"
-              label="Nombre actividad"
+              label="Actividad"
               hint="Introduzca el nombre de su empresa"
             ></v-select>
           </v-col>
@@ -45,7 +45,7 @@
 
       <v-stepper-content step="2">
         <v-row>
-          <v-col cols="4">
+          <v-col cols="12" sm="8" md="12" lg="4" order-sm="1">
             <v-text-field
               v-model="address"
               :rules="[requiredRules]"
@@ -54,7 +54,7 @@
               hint="Introduzca la dirección"
             ></v-text-field>
           </v-col>
-          <v-col cols="3">
+          <v-col cols="12" sm="7" md="12" lg="3" order-sm="3" order-md="2">
             <v-text-field
               v-model="city"
               :rules="[requiredRules]"
@@ -63,7 +63,7 @@
               hint="Introduzca la ciudad"
             ></v-text-field>
           </v-col>
-          <v-col cols="3">
+          <v-col cols="7" sm="4" md="7" lg="3" order-sm="2" order-md="3">
             <v-select
               :items="provinceList"
               label="Provincia"
@@ -75,7 +75,7 @@
               outlined
             ></v-select>
           </v-col>
-          <v-col cols="2">
+          <v-col cols="5" lg="2" order-sm="4">
             <v-text-field
               v-model="pc"
               :rules="[requiredRules]"
@@ -84,7 +84,7 @@
               hint="Introduzca el código postal"
             ></v-text-field>
           </v-col>
-          <v-col>
+          <v-col order-sm="5">
             <v-btn text @click="em--">Volver</v-btn>
             <v-btn color="primary" @click="em++">Siguiente</v-btn>
           </v-col>
@@ -95,7 +95,7 @@
 
       <v-stepper-content step="3">
         <v-row>
-          <v-col cols="3" lg="2">
+          <v-col cols="4" sm="3" lg="2">
             <v-text-field
               v-model="ext"
               :rules="[requiredRules]"
@@ -105,7 +105,7 @@
               hint="Introduzca el código del pais"
             ></v-text-field>
           </v-col>
-          <v-col cols="9" lg="4">
+          <v-col cols="8" sm="9" lg="3">
             <v-text-field
               v-model="phone"
               :rules="[requiredRules]"
@@ -135,34 +135,38 @@
       </v-stepper-step>
 
       <v-stepper-content step="4">
-        <v-row>
-          <v-col cols="6">
+        <v-row class="start">
+          <v-col cols="12" sm="6">
             <v-switch
               v-model="remoteWork"
-              label="Trabajo sin desplazamiento"
+              label="Trabajo remoto"
             ></v-switch>
           </v-col>
-          <v-col cols="6">
+          <v-col cols="12" sm="6">
             <v-switch
               v-model="fullTime"
               label="Trabajo de urgencias 24h"
             ></v-switch>
           </v-col>
 
-          <v-col cols="12" v-if="!remoteWork">
-            <v-subheader>Distancia máxima</v-subheader>
+          <v-col cols="12" v-if="!remoteWork" class="column">
+            <v-subheader class="margins">Introduzca la distancia máxima a desplazarse</v-subheader>
+
             <v-slider
               v-model="maxDistance"
               color="primary"
               track-color="grey"
               always-dirty
-              min="25"
+              min="0"
               step="25"
-              max="300"
-              thumb-label
-              tick-size="25"
-              hint="Introduzca la distancia máxima a desplazarse"
+              max="225"
+              thumb-label="always"
+              thumb-size="50"
+              :tick-labels="ticks"
             >
+              <template v-slot:thumb-label="{ value }">
+                {{ value == 25 ? 1 : value == 0 ? 0 : value - 25 }}km
+              </template>
               <template v-slot:prepend>
                 <v-icon color="primary" @click="res"> mdi-minus </v-icon>
               </template>
@@ -235,13 +239,13 @@
               :items="activities"
               item-text="title"
               item-value="id"
-              label="Nombre actividad"
+              label="Actividad"
               hint="Introduzca el nombre de su empresa"
               disabled
             ></v-select>
           </v-col>
 
-          <v-col cols="4">
+          <v-col cols="12" md="4">
             <v-text-field
               v-model="address"
               :outlined="false"
@@ -250,7 +254,7 @@
               disabled
             ></v-text-field>
           </v-col>
-          <v-col cols="3">
+          <v-col cols="12" md="3">
             <v-text-field
               v-model="city"
               :outlined="false"
@@ -259,7 +263,7 @@
               disabled
             ></v-text-field>
           </v-col>
-          <v-col cols="3">
+          <v-col cols="6" md="3">
             <v-text-field
               label="Provincia"
               v-model="province"
@@ -267,7 +271,7 @@
               disabled
             ></v-text-field>
           </v-col>
-          <v-col cols="2">
+          <v-col cols="6" md="2">
             <v-text-field
               v-model="pc"
               :outlined="false"
@@ -275,7 +279,7 @@
               disabled
             ></v-text-field>
           </v-col>
-          <v-col cols="3" lg="1">
+          <v-col cols="4" lg="1">
             <v-text-field
               v-model="ext"
               :outlined="false"
@@ -284,7 +288,7 @@
               disabled
             ></v-text-field>
           </v-col>
-          <v-col cols="9" lg="2">
+          <v-col cols="8" lg="2">
             <v-text-field
               v-model="phone"
               :outlined="false"
@@ -292,7 +296,7 @@
               disabled
             ></v-text-field>
           </v-col>
-          <v-col cols="12" lg="5">
+          <v-col cols="12" md="6" lg="5">
             <v-text-field
               v-model="email"
               :outlined="false"
@@ -300,25 +304,27 @@
               disabled
             ></v-text-field>
           </v-col>
-          <v-col cols="2" v-if="remoteWork">
+          <v-col cols="6" md="3" lg="2" v-if="remoteWork">
             <v-switch
               v-model="remoteWork"
               label="Sin salida"
               disabled
             ></v-switch>
           </v-col>
-          <v-col cols="2">
+          <v-col cols="6" md="3" lg="2">
             <v-switch v-model="fullTime" label="24h" disabled></v-switch>
           </v-col>
-          <v-col cols="2">
+          <v-col cols="4" md="3" lg="2">
             <v-text-field
               v-if="!remoteWork"
               v-model="maxDistance"
               :rules="[requiredRules]"
               :outlined="false"
+              prefix="km"
               label="Distancia máxima"
               hint="Introduzca la distancia máxima a desplazarse"
               disabled
+              reverse
             ></v-text-field>
           </v-col>
           <v-col cols="12">
@@ -371,19 +377,35 @@ export default class CreateCompany extends Vue {
   public fullTime = true;
   public remoteWork = true;
   public requiredRules = (v: string) => !!v || "Required";
-
+ public ticks = [
+    "0",
+    "1",
+    "25",
+    "50",
+    "75",
+    "100",
+    "125",
+    "150",
+    "175",
+    "200",
+  ];
   public mounted() {
+    this.$spinner.showSpinner();
     locationService
       .getProvince()
       .then((x) => (this.provinceList = x.data.result.items))
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(() => {
+        this.$spinner.removeSpinner();
+      });
+    this.$spinner.showSpinner();
     activitiesService
       .getActivities()
       .then((x) => (this.activities = x.data.$values))
-      .catch((err) => console.log(err));
-  }
- public get token(): string {
-    return this.$store.getters["getToken"];
+      .catch((err) => console.log(err))
+      .finally(() => {
+        this.$spinner.removeSpinner();
+      });
   }
   public sum() {
     this.maxDistance += 25;
@@ -392,6 +414,7 @@ export default class CreateCompany extends Vue {
     this.maxDistance -= 25;
   }
   public createCompany() {
+    this.$spinner.showSpinner();
     const company = {
       Identifier: this.cif,
       CompanyName: this.nameCompany,
@@ -407,25 +430,72 @@ export default class CreateCompany extends Vue {
       MaxDistance: this.maxDistance,
       Description: this.description,
       Availability: this.availability,
-      FullTime: this.fullTime
+      FullTime: this.fullTime,
     };
-    companiesService.createCompany(company, this.token).
-    then(x=>{
-      console.log(x.data);
-      this.$router.push({ name: "Home" });
-    })
-    .catch(x=>console.log(x));
+    companiesService
+      .createCompany(company)
+      .then((x) => {
+        console.log(x.data);
+        this.$router.push({ name: "Home" });
+      })
+      .catch((x) => console.log(x))
+      .finally(() => {
+        this.$spinner.removeSpinner();
+      });
   }
 }
 </script>
 <style scoped>
 .v-stepper--vertical .v-stepper__content {
-  padding: 10px 120px 10px 90px;
+  padding: 100px 120px 10px 90px;
+  display: flex;
+  justify-content: center;
+}
+.v-stepper--vertical,
+.v-stepper {
+  padding: 130px 70px 30px;
 }
 .row {
   padding: 40px 0;
 }
 .v-btn {
   margin: 0 15px;
+}
+.v-stepper__wrapper div {
+  display: flex;
+  justify-content: center;
+}
+.padding {
+  padding: 10px;
+}
+.column{
+  flex-direction: column;
+}
+.margins{
+  margin-bottom: 50px;
+}
+
+::v-deep .v-slider--horizontal .v-slider__tick .v-slider__tick-label {
+    top: 10px;
+    font-size: 10px;
+}
+::v-deep .v-slider--horizontal .v-slider__tick:last-child .v-slider__tick-label {
+    margin-left: 12px;
+}
+@media (max-width: 950px) {
+  .v-stepper--vertical .v-stepper__content {
+    padding: 61px 60px 1px 22px;
+  }
+  .v-stepper--vertical,
+  .v-stepper {
+    padding: 100px 1px 30px;
+  }
+}
+@media (max-width: 720px) {
+  .v-stepper__wrapper div.start div {
+    display: flex;
+    justify-content: start;
+    padding-left: 10px;
+  }
 }
 </style>

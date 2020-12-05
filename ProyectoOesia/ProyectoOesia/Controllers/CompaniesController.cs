@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Data;
 using Models;
-using Microsoft.AspNetCore.Identity;
+using ProyectoOesia.Services;
 
 namespace ProyectoOesia.Controllers
 {
@@ -13,9 +13,11 @@ namespace ProyectoOesia.Controllers
     public class CompaniesController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly IHereService _here;
 
-        public CompaniesController(ApplicationDbContext context)
+        public CompaniesController(ApplicationDbContext context, IHereService hereS)
         {
+            _here = hereS;
             _context = context;
         }
 
@@ -49,7 +51,11 @@ namespace ProyectoOesia.Controllers
             {
                 return BadRequest();
             }
-
+            var position = await _here.SearchGeocoding(company.Address, company.City, company.Pc);
+            var lat = position.items[0].position.lat;
+            var lng = position.items[0].position.lng;
+            company.Latitude = lat;
+            company.Longitude = lng;
             _context.Entry(company).State = EntityState.Modified;
 
             try
@@ -78,6 +84,11 @@ namespace ProyectoOesia.Controllers
         {
             var userId = User.Claims.First().Value;
             company.UserId = userId;
+            var position = await _here.SearchGeocoding(company.Address, company.City, company.Pc);
+            var lat = position.items[0].position.lat;
+            var lng = position.items[0].position.lng;
+            company.Latitude = lat;
+            company.Longitude = lng;
             _context.Companies.Add(company);
             await _context.SaveChangesAsync();
             return CreatedAtAction(nameof(GetCompany), new { id = company.Id },company);

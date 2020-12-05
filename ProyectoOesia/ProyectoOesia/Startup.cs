@@ -56,7 +56,7 @@ namespace ProyectoOesia
             var jwtSettings = Configuration.GetSection("Jwt").Get<JwtSettings>();
             
             //inyeccion de dependencias
-            services.AddScoped<IService, Service>();
+            services.AddScoped<IHereService, HereService>();
             
             //seguridad api
             services

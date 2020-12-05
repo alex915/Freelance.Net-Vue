@@ -20,6 +20,8 @@ namespace Models
         public string Ext { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
         public int ActivityId { get; set; }
         public int? MaxDistance { get; set; }
         public string Description { get; set; }

@@ -23,6 +23,21 @@ export default class Spinner extends Vue {
 </script>
 
 <style lang="scss" scoped>
+.sk-folding-container {
+  font-weight: normal;
+  overflow: hidden;
+  z-index: 250;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, .5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .sk-chase {
   width: 40px;
   height: 40px;
@@ -44,7 +59,7 @@ export default class Spinner extends Vue {
   display: block;
   width: 25%;
   height: 25%;
-  background-color: #fff;
+  background-color:red;
   border-radius: 100%;
   animation: sk-chase-dot-before 2.0s infinite ease-in-out both; 
 }

@@ -1,42 +1,60 @@
+import store from '@/store';
 import Vue from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
 import Home from '../views/Home.vue'
 
 Vue.use(VueRouter)
 
+function authGuard(to: any, from: any, next: any){
+  if(store.state.token) {
+      next();
+  } else{
+      next('/login');
+  }
+}
+
+function noAuthGuard(to: any, from: any, next: any){
+  if(store.state.token) {
+    next('/');
+  } else{
+    next();
+  }
+}
+
 const routes: Array<RouteConfig> = [
   {
     path: '/',
     name: 'Home',
+    beforeEnter: authGuard,
     component: Home
   },
   {
-    path: '/new',
-    name: 'New Company',
-    component: () => import( '../views/NewCompanyView.vue')
-  },{
     path: '/search',
     name: 'Search',
-  
-    component: () => import('../views/Search.vue')
+    beforeEnter: authGuard,
+    component: () => import('../views/Search.vue'),
   },
   {
     path: '/profile',
     name: 'UpdateUser',
-  
+    beforeEnter: authGuard,
     component: () => import('../views/auth/UpdateUser.vue')
   },
     {
-      //ruta para acceder al login
       path: '/login',
       name: 'Login',
+      beforeEnter: noAuthGuard,
       component: () => import('../views/auth/Login.vue')
   },
     {
-      //accede al registro de usuarios
       path: '/register',
       name: 'Register',
+      beforeEnter: noAuthGuard,
       component: () => import('../views/auth/Register.vue')
+  },
+  {
+    path: '**',
+    redirect: 'Home',
   }
 ]
 

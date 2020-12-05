@@ -8,12 +8,15 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Models;
 using ProyectoOesia.DTOs;
+using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -117,6 +120,10 @@ namespace ProyectoOesia.Controllers
             return Ok(user);
         }
 
+       
+
+      
+
         [HttpPut]
         public async Task<IActionResult> UpdateUser([FromBody] UserDtoUpdate userDto)
         {
@@ -178,5 +185,6 @@ namespace ProyectoOesia.Controllers
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
+    
     }
 }

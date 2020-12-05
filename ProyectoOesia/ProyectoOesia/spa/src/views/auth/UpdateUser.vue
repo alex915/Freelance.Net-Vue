@@ -1,20 +1,15 @@
 <template>
-  <div>
+  <div class="updateUser shadow">
     <v-row justify="center">
-      <v-col cols="11" md="10" lg="8">
-        <v-form
-          action
-          class="form"
-          v-model="isValid"
-          @submit.prevent="update"
-        >
+      <v-col class="padding " cols="11" sm="12" md="12" lg="8">
+        <v-form action class="form" v-model="isValid" @submit.prevent="update">
           <v-row justify="center" class="pb-6">
             <v-col cols="12">
               <h4>Actualiza tus datos</h4>
             </v-col>
           </v-row>
           <v-row justify="center">
-            <v-col cols="11" sm="8" md="6" lg="6">
+            <v-col cols="12" sm="9" md="6" lg="6">
               <v-text-field
                 v-model="firstName"
                 :outlined="true"
@@ -23,7 +18,7 @@
                 hint="Introduzca su nombre"
               ></v-text-field>
             </v-col>
-            <v-col cols="11" sm="8" md="6" lg="6">
+            <v-col cols="12" sm="9" md="6" lg="6">
               <v-text-field
                 v-model="lastName"
                 :rules="[requiredRules]"
@@ -34,16 +29,17 @@
             </v-col>
           </v-row>
           <v-row justify-md="space-between" justify="center">
-            <v-col cols="11" sm="8" md="7" lg="7">
+            <v-col cols="12" sm="9" md="7" lg="7">
               <v-text-field
                 v-model="email"
                 :outlined="true"
                 :rules="[requiredRules, emailRules]"
                 label="Email"
                 hint="Introduzca su correo electrónico"
+                autocomplete="username"
               ></v-text-field>
             </v-col>
-            <v-col cols="11" sm="8" md="4" lg="4">
+            <v-col cols="12" sm="9" md="4" lg="4">
               <div class="flex">
                 <v-text-field
                   v-model="ext"
@@ -61,7 +57,7 @@
             </v-col>
           </v-row>
           <v-row justify="center">
-            <v-col cols="11" sm="8" md="6" lg="6">
+            <v-col cols="12" sm="9" md="6" lg="6">
               <v-text-field
                 v-model="newPassword"
                 type="password"
@@ -69,9 +65,10 @@
                 :outlined="true"
                 label="Nueva contraseña"
                 hint="Introduzca una nueva contraseña"
+                autocomplete="new-password"
               ></v-text-field>
             </v-col>
-            <v-col cols="11" sm="8" md="6" lg="6">
+            <v-col cols="12" sm="9" md="6" lg="6">
               <v-text-field
                 v-model="confirmPassword"
                 :outlined="true"
@@ -79,9 +76,10 @@
                 :rules="[requiredRules]"
                 label="Confirme Contraseña"
                 hint="Confirme su contraseña"
+                autocomplete="new-password"
               ></v-text-field>
             </v-col>
-            <v-col cols="11" sm="8" md="6" lg="6">
+            <v-col cols="12" sm="9" md="6" lg="6">
               <v-text-field
                 v-model="oldPassword"
                 :outlined="true"
@@ -89,18 +87,14 @@
                 :rules="[requiredRules]"
                 label="Contraseña actual"
                 hint="Introduzca su contraseña actual"
+                autocomplete="current-password"
               ></v-text-field>
             </v-col>
           </v-row>
-          
+
           <v-row justify="center">
             <v-col>
-              <v-btn
-                color="primary"
-                type="submit"
-                
-                >Guardar cambios</v-btn
-              >
+              <v-btn color="primary" type="submit">Guardar cambios</v-btn>
             </v-col>
           </v-row>
         </v-form>
@@ -114,7 +108,7 @@ import { authService } from "@/services/auth.service";
 import { Component, Vue } from "vue-property-decorator";
 
 @Component
-export default class Login extends Vue {
+export default class UpdateUser extends Vue {
   public isValid = true;
   public lastName = "";
   public firstName = "";
@@ -145,15 +139,14 @@ export default class Login extends Vue {
       value === this.newPassword || "The password confirmation does not match.",
   ];
 
-public mounted(){
-  const user = this.$store.getters["getUser"];
-  this.ext = user.ext;
-  this.phone = user.phoneNumber;
-  this.firstName = user.firstName;
-  this.lastName = user.lastName;
-  this.email = user.email;
-
-}
+  public mounted() {
+    const user = this.$store.getters["getUser"];
+    this.ext = user.ext;
+    this.phone = user.phoneNumber;
+    this.firstName = user.firstName;
+    this.lastName = user.lastName;
+    this.email = user.email;
+  }
 
   public update(): void {
     this.showLoading = true;
@@ -162,7 +155,7 @@ public mounted(){
       FirstName: this.firstName,
       LastName: this.lastName,
       Email: this.email,
-      OldPassword:this.oldPassword,
+      OldPassword: this.oldPassword,
       NewPassword: this.newPassword,
       Ext: this.ext,
       Phone: this.phone,
@@ -170,7 +163,7 @@ public mounted(){
     authService
       .update(user)
       .then(() => {
-         this.$router.push({ name: "Login" });
+        this.$router.push({ name: "Login" });
       })
       .catch((error: Error) => {
         console.log(error);
@@ -207,5 +200,15 @@ a {
 .widthExt {
   width: 150px;
   margin-right: 15px;
+}
+.updateUser {
+  margin-left: 56px;
+  background-color: white;
+}
+.padding {
+  padding: 60px;
+}
+.shadow{
+  box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
 }
 </style>
