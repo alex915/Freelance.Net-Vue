@@ -41,41 +41,56 @@ namespace ProyectoOesia.Controllers
 
 
         }
+        //Empresas que esten dentro del radio de busqueda del usuario
         [HttpGet("company")]
         public async Task<IActionResult> maxDistance(int? id)
         {
+            //saber donde esta el usuario -->coordenadas gps del navegador
+            //saber donde esta la empresa -->direccion dentro del objeto
+
+            //api (google)
 
             var data = await _context.Companies.Include(x => x.MaxDistance).FirstOrDefaultAsync(x => x.Id == id);
             return Ok(data);
         }
         [HttpGet("company_uno")]
-        public async Task<IActionResult> fullTime(bool? disponible)
+        public async Task<IActionResult> fullTime()
         {
-            var data = _context.Companies.Include(u => u.Availability);
-
-            List<Company> companys = await _context.Companies.OrderBy(u => u.Availability).ToListAsync();
 
 
-            if (disponible == true)
-            {
-                return Ok(companys);
-            }
-            //if (disponible == true)
-            //{
-            //    companys = companys.Where(x => x.Activity == fullTime).ToList();
-            //}
+            List<Company> companys = await _context.Companies.Where(u => u.FullTime == true)
+                                            .OrderBy(u => u.Province).ToListAsync();
 
-            else
-            {
-                //companys = companys.Where(x => x.Activity != fullTime).ToList();
-                //return Ok(companys);
-                return Ok(companys);
-            }
-
-
+            return Ok(companys);
 
 
         }
+        [HttpGet("filter")]
+        public async Task<IActionResult> filter(int? maxdistante, bool? fulltime, string? province, string? search)
+        {
+            var data = _context.Companies;
+
+            if (search!=null)
+            {
+               data.Where(x => x.Description.Contains(search));
+            }
+
+            if (maxdistante!=0)
+            {
+                //ejemplo
+               data.Include(x => x.Activity);
+            }
+
+            if ((bool)fulltime)
+            {
+               data.Find("");
+            }
+
+
+            return Ok(data);
+        }
+
+
 
 
     }
