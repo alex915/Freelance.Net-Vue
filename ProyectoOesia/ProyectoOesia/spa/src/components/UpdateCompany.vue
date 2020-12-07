@@ -229,7 +229,7 @@ export default class UpdateCompany extends Vue {
   public lat = 0;
   public lon = 0;
 
-  public() {
+  public mounted() {
     this.$spinner.showSpinner();
     locationService
       .getProvince()
