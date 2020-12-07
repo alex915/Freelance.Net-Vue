@@ -1,105 +1,112 @@
 <template>
-  <div class="updateUser shadow">
-    <v-row justify="center">
-      <v-col class="padding " cols="11" sm="12" md="12" lg="8">
-        <v-form action class="form" v-model="isValid" @submit.prevent="update">
-          <v-row justify="center" class="pb-6">
-            <v-col cols="12">
-              <h4>Actualiza tus datos</h4>
-            </v-col>
-          </v-row>
-          <v-row justify="center">
-            <v-col cols="12" sm="9" md="6" lg="6">
-              <v-text-field
-                v-model="firstName"
-                :outlined="true"
-                label="Nombre"
-                :rules="[requiredRules]"
-                hint="Introduzca su nombre"
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12" sm="9" md="6" lg="6">
-              <v-text-field
-                v-model="lastName"
-                :rules="[requiredRules]"
-                :outlined="true"
-                label="Apellido"
-                hint="Introduzca su apellido"
-              ></v-text-field>
-            </v-col>
-          </v-row>
-          <v-row justify-md="space-between" justify="center">
-            <v-col cols="12" sm="9" md="7" lg="7">
-              <v-text-field
-                v-model="email"
-                :outlined="true"
-                :rules="[requiredRules, emailRules]"
-                label="Email"
-                hint="Introduzca su correo electrónico"
-                autocomplete="username"
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12" sm="9" md="4" lg="4">
-              <div class="flex">
+  <div class="updateUser ">
+    <div class="shadow">
+      <v-row justify="center">
+        <v-col class="padding" cols="11" sm="12" md="12" lg="8">
+          <v-form
+            action
+            class="form"
+            v-model="isValid"
+            @submit.prevent="update"
+          >
+            <v-row justify="center" class="pb-6">
+              <v-col cols="12">
+                <h4>Actualiza tus datos</h4>
+              </v-col>
+            </v-row>
+            <v-row justify="center">
+              <v-col cols="12" sm="9" md="6" lg="6">
                 <v-text-field
-                  v-model="ext"
+                  v-model="firstName"
                   :outlined="true"
-                  label="Codigo"
-                  prefix="+"
-                  class="widthExt"
+                  label="Nombre"
+                  :rules="[requiredRules]"
+                  hint="Introduzca su nombre"
                 ></v-text-field>
+              </v-col>
+              <v-col cols="12" sm="9" md="6" lg="6">
                 <v-text-field
-                  v-model="phone"
+                  v-model="lastName"
+                  :rules="[requiredRules]"
                   :outlined="true"
-                  label="Telefono"
+                  label="Apellido"
+                  hint="Introduzca su apellido"
                 ></v-text-field>
-              </div>
-            </v-col>
-          </v-row>
-          <v-row justify="center">
-            <v-col cols="12" sm="9" md="6" lg="6">
-              <v-text-field
-                v-model="newPassword"
-                type="password"
-                :rules="[requiredRules]"
-                :outlined="true"
-                label="Nueva contraseña"
-                hint="Introduzca una nueva contraseña"
-                autocomplete="new-password"
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12" sm="9" md="6" lg="6">
-              <v-text-field
-                v-model="confirmPassword"
-                :outlined="true"
-                type="password"
-                :rules="[requiredRules]"
-                label="Confirme Contraseña"
-                hint="Confirme su contraseña"
-                autocomplete="new-password"
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12" sm="9" md="6" lg="6">
-              <v-text-field
-                v-model="oldPassword"
-                :outlined="true"
-                type="password"
-                :rules="[requiredRules]"
-                label="Contraseña actual"
-                hint="Introduzca su contraseña actual"
-                autocomplete="current-password"
-              ></v-text-field>
-            </v-col>
-          </v-row>
+              </v-col>
+            </v-row>
+            <v-row justify-md="space-between" justify="center">
+              <v-col cols="12" sm="9" md="7" lg="7">
+                <v-text-field
+                  v-model="email"
+                  :outlined="true"
+                  :rules="[requiredRules, emailRules]"
+                  label="Email"
+                  hint="Introduzca su correo electrónico"
+                  autocomplete="username"
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12" sm="9" md="4" lg="4">
+                <div class="flex">
+                  <v-text-field
+                    v-model="ext"
+                    :outlined="true"
+                    label="Codigo"
+                    prefix="+"
+                    class="widthExt"
+                  ></v-text-field>
+                  <v-text-field
+                    v-model="phone"
+                    :outlined="true"
+                    label="Telefono"
+                  ></v-text-field>
+                </div>
+              </v-col>
+            </v-row>
+            <v-row justify="center">
+              <v-col cols="12" sm="9" md="6" lg="6">
+                <v-text-field
+                  v-model="newPassword"
+                  type="password"
+                  :rules="[requiredRules]"
+                  :outlined="true"
+                  label="Nueva contraseña"
+                  hint="Introduzca una nueva contraseña"
+                  autocomplete="new-password"
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12" sm="9" md="6" lg="6">
+                <v-text-field
+                  v-model="confirmPassword"
+                  :outlined="true"
+                  type="password"
+                  :rules="[requiredRules]"
+                  label="Confirme Contraseña"
+                  hint="Confirme su contraseña"
+                  autocomplete="new-password"
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12" sm="9" md="6" lg="6">
+                <v-text-field
+                  v-model="oldPassword"
+                  :outlined="true"
+                  type="password"
+                  :rules="[requiredRules]"
+                  label="Contraseña actual"
+                  hint="Introduzca su contraseña actual"
+                  autocomplete="current-password"
+                ></v-text-field>
+              </v-col>
+            </v-row>
 
-          <v-row justify="center">
-            <v-col>
-              <v-btn color="primary" type="submit">Guardar cambios</v-btn>
-            </v-col>
-          </v-row>
-        </v-form>
-      </v-col>
-    </v-row>
+            <v-row justify="center">
+              <v-col>
+                <v-btn color="primary" type="submit">Guardar cambios</v-btn>
+              </v-col>
+            </v-row>
+          </v-form>
+        </v-col>
+      </v-row>
+    </div>
   </div>
 </template>
 
@@ -208,7 +215,9 @@ a {
 .padding {
   padding: 60px;
 }
-.shadow{
-  box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
+.shadow {
+  background-color: white;
+  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+    0 1px 5px 0 rgba(0, 0, 0, 0.12);
 }
 </style>

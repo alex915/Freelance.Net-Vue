@@ -224,7 +224,7 @@ export default class UpdateCompany extends Vue {
   public lat = 0;
   public lon = 0;
 
-  public mounted() {
+  public() {
     this.$spinner.showSpinner();
     locationService
       .getProvince()
@@ -310,8 +310,8 @@ export default class UpdateCompany extends Vue {
   }
 
   public getCompanyObjectData(): any {
-    const user = this.$store.getters["getUser"];
-    const company = user.company;
+    this.user = this.$store.getters["getUser"];
+    const company = this.user.company;
     const companyObj = {
       id: company.id,
       userId: company.userId,
@@ -397,17 +397,20 @@ export default class UpdateCompany extends Vue {
 }
 
 ::v-deep .v-slider--horizontal .v-slider__tick .v-slider__tick-label {
-    top: 10px;
-    font-size: 10px;
+  top: 10px;
+  font-size: 10px;
 }
-::v-deep .v-slider--horizontal .v-slider__tick:last-child .v-slider__tick-label {
-    margin-left: 12px;
+::v-deep
+  .v-slider--horizontal
+  .v-slider__tick:last-child
+  .v-slider__tick-label {
+  margin-left: 12px;
 }
 .box {
   background: white;
   box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14),
     0 1px 5px 0 rgba(0, 0, 0, 0.12);
-    padding: 30px;
+  padding: 30px;
 }
 @media (max-width: 900px) {
   .btnCenter {
