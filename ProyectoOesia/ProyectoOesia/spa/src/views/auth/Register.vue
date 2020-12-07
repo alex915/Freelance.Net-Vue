@@ -107,7 +107,7 @@
             <v-row justify="center">
               <v-col>
                 <v-btn
-                  color="primary"
+                  color="#2f9fe9"
                   type="submit"
                   :disabled="!isValid && !condition"
                   >Crear una cuenta</v-btn

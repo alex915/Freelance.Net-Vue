@@ -44,7 +44,7 @@
           </v-row>
           <v-row justify="center">
             <v-col>
-              <v-btn color="success" type="submit">Iniciar Sesion</v-btn>
+              <v-btn color="#2f9fe9" type="submit">Iniciar Sesion</v-btn>
             </v-col>
           </v-row>
         </form>
