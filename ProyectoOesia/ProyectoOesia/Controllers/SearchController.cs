@@ -41,53 +41,41 @@ namespace ProyectoOesia.Controllers
 
 
         }
-        //Empresas que esten dentro del radio de busqueda del usuario
-        [HttpGet("company")]
-        public async Task<IActionResult> maxDistance(int? id)
+        
+        [HttpGet("provincia")]
+        public async Task<IActionResult> provincia (string province, string city)
         {
-            //saber donde esta el usuario -->coordenadas gps del navegador
-            //saber donde esta la empresa -->direccion dentro del objeto
+            List<Company> companies = await _context.Companies.OrderBy(p => p.Province).ToListAsync();
+            var data = companies.Select(g => g.City).Distinct().ToList();
 
-            //api (google)
-
-            var data = await _context.Companies.Include(x => x.MaxDistance).FirstOrDefaultAsync(x => x.Id == id);
+            if (String.IsNullOrEmpty(province) && String.IsNullOrEmpty(city))
+            {
+                return Ok(data);
+            }
+            if (!String.IsNullOrEmpty(province))
+            {
+                companies = companies.Where(x => x.Province.ToLower()
+                               .Contains(province.ToLower())).ToList();
+            }
+            if (!String.IsNullOrEmpty(city))
+            {
+                companies = companies.Where(x => x.City == city).ToList();
+            }
             return Ok(data);
         }
-        [HttpGet("company_uno")]
-        public async Task<IActionResult> fullTime()
+        [HttpGet("disponibilidad")]
+        public async Task<IActionResult> disponibilidad(string companyname, bool? fulltime)
         {
+            List<Company> companies = await _context.Companies.OrderBy(p => p.CompanyName).ToListAsync();
+            var data = companies.Select(g => g.FullTime).Distinct().ToList();
 
+            if (fulltime == true)
+                    {
+                       
+                    }
 
-            List<Company> companys = await _context.Companies.Where(u => u.FullTime == true)
-                                            .OrderBy(u => u.Province).ToListAsync();
+                return Ok(data);
 
-            return Ok(companys);
-
-
-        }
-        [HttpGet("filter")]
-        public async Task<IActionResult> filter(int? maxdistante, bool? fulltime, string? province, string? search)
-        {
-            var data = _context.Companies;
-
-            if (search!=null)
-            {
-               data.Where(x => x.Description.Contains(search));
-            }
-
-            if (maxdistante!=0)
-            {
-                //ejemplo
-               data.Include(x => x.Activity);
-            }
-
-            if ((bool)fulltime)
-            {
-               data.Find("");
-            }
-
-
-            return Ok(data);
         }
 
 
