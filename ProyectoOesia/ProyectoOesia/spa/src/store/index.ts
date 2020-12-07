@@ -11,12 +11,16 @@ const vuexLocal = new VuexPersistence<any>({
 export default new Vuex.Store({
   state: {
     token: '',
+    rol: '',
     user: {},
     spinners: 0,
   },
   mutations: {
     setToken: (state, token) => {
       state.token = token;
+    },
+    setRol: (state, rol) => {
+      state.rol = rol;
     },
     setUser: (state, user) => {
       state.user = user;
@@ -34,6 +38,9 @@ export default new Vuex.Store({
     setToken: (state, token) => {
       state.commit('setToken', token);
     },
+    setRol: (state, rol) => {
+      state.commit('setRol', rol);
+    },
     setUser: (state, user) => {
       state.commit('setUser', user);
     },
@@ -45,10 +52,13 @@ export default new Vuex.Store({
     },
   },
   getters: {
-    getToken: (state) => {
+    token: (state) => {
       return state.token;
     },
-    getUser: (state) => {
+    rol: (state) => {
+      return state.token;
+    },
+    user: (state) => {
       return state.user;
     },
     spinners: (state) => {

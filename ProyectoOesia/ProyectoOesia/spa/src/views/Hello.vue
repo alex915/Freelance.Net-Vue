@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue/types/umd";
+import { Component, Vue } from "vue-property-decorator";
 
 export default class Hello extends Vue {
 public prueba:number = 0;

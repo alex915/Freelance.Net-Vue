@@ -79,8 +79,10 @@ export default class Login extends Vue {
       .login(this.email, this.password)
       .then((response: AxiosResponse) => {
         //si hay exito guarda el token en la store y redirige a home
-        const token = response.data;
+        const token = response.data.token;
+        const rol = response.data.rol;
         this.$store.dispatch("setToken", token);
+        this.$store.dispatch("setRol", rol);
         this.$router.push({ name: "Home" });
       })
       .catch((error: Error) => {

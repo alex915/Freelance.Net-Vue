@@ -147,7 +147,7 @@ export default class UpdateUser extends Vue {
   ];
 
   public mounted() {
-    const user = this.$store.getters["getUser"];
+    const user = this.$store.getters["user"];
     this.ext = user.ext;
     this.phone = user.phoneNumber;
     this.firstName = user.firstName;

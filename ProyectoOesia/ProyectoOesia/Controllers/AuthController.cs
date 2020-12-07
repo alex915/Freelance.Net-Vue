@@ -49,7 +49,7 @@ namespace ProyectoOesia.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAsync(string email, string password)
+        public async Task<IActionResult> SignIn(string email, string password)
         {
             var user = _userManager.Users
                 .SingleOrDefault(u => u.UserName == email);
@@ -64,7 +64,10 @@ namespace ProyectoOesia.Controllers
             if (userSigninResult)
             {
                 _logger.LogInformation("User login ok");
-                return Ok(GenerateJwt(user, await _userManager.GetRolesAsync(user)));
+                return Ok(new { 
+                    Token = GenerateJwt(user, await _userManager.GetRolesAsync(user)),
+                    Rol = (await _userManager.GetRolesAsync(user)).FirstOrDefault(),
+                });;
             }
             _logger.LogError("User cannot login");
             return BadRequest("Email or password incorrect.");

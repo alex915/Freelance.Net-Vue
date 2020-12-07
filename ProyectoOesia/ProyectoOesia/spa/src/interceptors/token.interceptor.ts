@@ -3,7 +3,7 @@ import store from '@/store';
 
 export const TokenInterceptor = () => {
     axios.interceptors.request.use((config: any) => {
-        const authToken = store.getters['getToken'];
+        const authToken = store.getters['token'];
         config.headers['Content-Type'] = 'application/json';
         
         if (authToken && config.url.includes("/api/")) {

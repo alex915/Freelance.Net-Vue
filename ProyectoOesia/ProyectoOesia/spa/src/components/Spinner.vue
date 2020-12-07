@@ -59,7 +59,7 @@ export default class Spinner extends Vue {
   display: block;
   width: 25%;
   height: 25%;
-  background-color:red;
+  background-color:#2f9fe9;
   border-radius: 100%;
   animation: sk-chase-dot-before 2.0s infinite ease-in-out both; 
 }

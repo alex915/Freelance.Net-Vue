@@ -5,19 +5,33 @@ import Home from '../views/Home.vue'
 
 Vue.use(VueRouter)
 
-function authGuard(to: any, from: any, next: any){
-  if(store.state.token) {
-      next();
-  } else{
-      next('/login');
+const roleAdmin = "Admin".toLowerCase();
+
+function authGuard(to: any, from: any, next: any) {
+  const stateRole = store.state.rol.toLowerCase();
+  if (store.state.rol && stateRole !== roleAdmin) {
+    next();
+  } else if(store.state.rol && stateRole === roleAdmin) {
+    next('/admin');
+  } else {
+    next('/login');
   }
 }
 
-function noAuthGuard(to: any, from: any, next: any){
-  if(store.state.token) {
-    next('/');
-  } else{
+function adminGuard(to: any, from: any, next: any) {
+  const stateRole = store.state.rol.toLowerCase();
+  if (stateRole === roleAdmin) {
     next();
+  } else {
+    next('/');
+  }
+}
+
+function noAuthGuard(to: any, from: any, next: any) {
+  if (!store.state.token) {
+    next();
+  } else {
+    next('/');
   }
 }
 
@@ -40,17 +54,23 @@ const routes: Array<RouteConfig> = [
     beforeEnter: authGuard,
     component: () => import('../views/auth/UpdateUser.vue')
   },
-    {
-      path: '/login',
-      name: 'Login',
-      beforeEnter: noAuthGuard,
-      component: () => import('../views/auth/Login.vue')
+  {
+    path: '/login',
+    name: 'Login',
+    beforeEnter: noAuthGuard,
+    component: () => import('../views/auth/Login.vue')
   },
-    {
-      path: '/register',
-      name: 'Register',
-      beforeEnter: noAuthGuard,
-      component: () => import('../views/auth/Register.vue')
+  {
+    path: '/register',
+    name: 'Register',
+    beforeEnter: noAuthGuard,
+    component: () => import('../views/auth/Register.vue')
+  },
+  {
+    path: '/admin',
+    name: 'Admin',
+    beforeEnter: adminGuard,
+    component: () => import('../views/admin/Admin.vue')
   },
   {
     path: '**',

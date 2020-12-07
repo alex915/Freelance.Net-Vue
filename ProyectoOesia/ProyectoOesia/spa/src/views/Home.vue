@@ -1,24 +1,9 @@
 <template>
   <div class="home">
-    <div v-if="token">
-      <img alt="Vue logo" src="../assets/logo.png" />
-      <h2>ANIMO!</h2>
-    </div>
-    <!-- <maps :lat="lat" :lon="lon" :km="km == 25 ? 1 : km == 0 ? 0 : km - 25" /> -->
-    <div v-if="hasCompany">
+    
       <update-company />
       <create-company />
-    </div>
-   
-    <v-slider
-      v-model="km"
-      
-      step="25"
-      min="0"
-      :tick-labels="ticks"
-      ticks="always"
-      max="225"
-    ></v-slider>
+    
   </div>
 </template>
 
@@ -54,7 +39,7 @@ export default class Home extends Vue {
     "200km",
   ];
   public get token(): string {
-    return this.$store.getters["getToken"];
+    return this.$store.getters["token"];
   }
 
   public get hasCompany(): boolean {

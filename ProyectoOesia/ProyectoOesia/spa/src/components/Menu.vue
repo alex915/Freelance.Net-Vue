@@ -60,10 +60,10 @@ export default class Menu extends Vue {
   public background = false;
   
    get user(): any {
-    return this.$store.getters["getUser"];
+    return this.$store.getters["user"];
   }
    get token(): any {
-    return this.$store.getters["getToken"];
+    return this.$store.getters["token"];
   }
 
 }

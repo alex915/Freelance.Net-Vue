@@ -288,7 +288,7 @@ export default class UpdateCompany extends Vue {
   }
 
   public getCompanyData(): void {
-    this.user = this.$store.getters["getUser"];
+    this.user = this.$store.getters["user"];
     const company = this.user.company;
     this.id = company.id;
     this.userId = company.userId;
@@ -315,7 +315,7 @@ export default class UpdateCompany extends Vue {
   }
 
   public getCompanyObjectData(): any {
-    this.user = this.$store.getters["getUser"];
+    this.user = this.$store.getters["user"];
     const company = this.user.company;
     const companyObj = {
       id: company.id,
