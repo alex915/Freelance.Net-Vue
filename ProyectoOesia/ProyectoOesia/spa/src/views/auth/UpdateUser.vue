@@ -210,7 +210,7 @@ a {
 }
 .updateUser {
   margin-left: 56px;
-  background-color: white;
+  padding: 10px;
 }
 .padding {
   padding: 60px;
