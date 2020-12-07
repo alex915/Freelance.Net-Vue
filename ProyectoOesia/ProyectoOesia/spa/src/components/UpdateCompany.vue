@@ -1,6 +1,11 @@
 <template>
   <div class="padding">
     <div class="box">
+      <v-row justify="center" class="pb-6">
+              <v-col cols="12">
+                <h4>Actualiza tu empresa</h4>
+              </v-col>
+            </v-row>
       <v-row>
         <v-col cols="12" lg="3">
           <v-text-field

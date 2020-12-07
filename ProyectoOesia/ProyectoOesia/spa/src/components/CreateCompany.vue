@@ -1,6 +1,11 @@
 <template>
   <div class="padding">
     <v-stepper v-model="em" vertical>
+    <v-row justify="center" class="pb-6">
+      <v-col cols="12">
+        <h4>Crea tu empresa</h4>
+      </v-col>
+    </v-row>
       <v-stepper-step step="1">Datos de la empresa</v-stepper-step>
 
       <v-stepper-content step="1">
@@ -137,10 +142,7 @@
       <v-stepper-content step="4">
         <v-row class="start">
           <v-col cols="12" sm="6">
-            <v-switch
-              v-model="remoteWork"
-              label="Trabajo remoto"
-            ></v-switch>
+            <v-switch v-model="remoteWork" label="Trabajo remoto"></v-switch>
           </v-col>
           <v-col cols="12" sm="6">
             <v-switch
@@ -150,7 +152,9 @@
           </v-col>
 
           <v-col cols="12" v-if="!remoteWork" class="column">
-            <v-subheader class="margins">Introduzca la distancia máxima a desplazarse</v-subheader>
+            <v-subheader class="margins"
+              >Introduzca la distancia máxima a desplazarse</v-subheader
+            >
 
             <v-slider
               v-model="maxDistance"
@@ -377,7 +381,7 @@ export default class CreateCompany extends Vue {
   public fullTime = true;
   public remoteWork = true;
   public requiredRules = (v: string) => !!v || "Required";
- public ticks = [
+  public ticks = [
     "0",
     "1",
     "25",
@@ -468,19 +472,22 @@ export default class CreateCompany extends Vue {
 .padding {
   padding: 10px;
 }
-.column{
+.column {
   flex-direction: column;
 }
-.margins{
+.margins {
   margin-bottom: 50px;
 }
 
 ::v-deep .v-slider--horizontal .v-slider__tick .v-slider__tick-label {
-    top: 10px;
-    font-size: 10px;
+  top: 10px;
+  font-size: 10px;
 }
-::v-deep .v-slider--horizontal .v-slider__tick:last-child .v-slider__tick-label {
-    margin-left: 12px;
+::v-deep
+  .v-slider--horizontal
+  .v-slider__tick:last-child
+  .v-slider__tick-label {
+  margin-left: 12px;
 }
 @media (max-width: 950px) {
   .v-stepper--vertical .v-stepper__content {
