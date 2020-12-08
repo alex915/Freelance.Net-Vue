@@ -85,17 +85,17 @@
                   autocomplete="new-password"
                 ></v-text-field>
               </v-col>
-              <v-col cols="12">
+              <v-col cols="12" sm="9" md="6" lg="6">
                 <v-file-input
                   :multiple="false"
                   :show-size="true"
                   label="Avatar"
-                  prepend-icon="mdi-camera"
+                  append-icon="mdi-camera"
+                  prepend-icon=""
                   accept="image/png, image/jpeg"
-                  placeholder="Selecciona la imagen de tu avatar"
+                  placeholder="Selecciona avatar"
                   outlined
                   @change="handleInput"
-                 
                 ></v-file-input>
               </v-col>
               <v-col cols="12" sm="9" md="6" lg="6">
@@ -210,25 +210,22 @@ export default class UpdateUser extends Vue {
       value === this.newPassword || "The password confirmation does not match.",
   ];
 
-private handleInput(input: any) {
-      if (input.length > 0) {
-        let fileName = '';
-        fileName = input[0].name;
-        if (fileName.lastIndexOf('.') <= 0) {
-          return;
-        }
-          const fr = new FileReader();
-          fr.readAsDataURL(input[0]);
-          fr.addEventListener('load', () => {
-            this.avatar= input[0];
-          });
-      } else if (input.length ===  0) {
-            this.avatar= '';
+  private handleInput(input: any) {
+    if (input.length > 0) {
+      let fileName = "";
+      fileName = input[0].name;
+      if (fileName.lastIndexOf(".") <= 0) {
+        return;
       }
+      const fr = new FileReader();
+      fr.readAsDataURL(input[0]);
+      fr.addEventListener("load", () => {
+        this.avatar = input[0];
+      });
+    } else if (input.length === 0) {
+      this.avatar = "";
     }
-
-
-
+  }
 
   public mounted() {
     const user = this.$store.getters["user"];
@@ -243,7 +240,7 @@ private handleInput(input: any) {
     this.showLoading = true;
     this.$spinner.showSpinner();
     console.log(this.avatar);
-   
+
     const user = {
       FirstName: this.firstName,
       LastName: this.lastName,

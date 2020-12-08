@@ -6,6 +6,8 @@ import Home from '../views/Home.vue'
 Vue.use(VueRouter)
 
 const roleAdmin = "Admin".toLowerCase();
+const roleWorker = "Worker".toLowerCase();
+const roleUser = "User".toLowerCase();
 
 function authGuard(to: any, from: any, next: any) {
   const stateRole = store.state.rol.toLowerCase();
@@ -13,6 +15,26 @@ function authGuard(to: any, from: any, next: any) {
     next();
   } else if(store.state.rol && stateRole === roleAdmin) {
     next('/admin');
+  } else {
+    next('/login');
+  }
+}
+function userGuard(to: any, from: any, next: any) {
+  const stateRole = store.state.rol.toLowerCase();
+  if (store.state.rol && stateRole === roleUser) {
+    next();
+  } else if(store.state.rol && stateRole !== roleUser) {
+    next('/');
+  } else {
+    next('/login');
+  }
+}
+function workerGuard(to: any, from: any, next: any) {
+  const stateRole = store.state.rol.toLowerCase();
+  if (store.state.rol && stateRole === roleWorker) {
+    next();
+  } else if(store.state.rol && stateRole !== roleWorker) {
+    next('/');
   } else {
     next('/login');
   }
@@ -45,28 +67,28 @@ const routes: Array<RouteConfig> = [
     component: Home
   },
   {
-    path: '/search',
-    name: 'Search',
-    beforeEnter: authGuard,
-    component: () => import('../views/Search.vue'),
+    path: '/contacts',
+    name: 'Contacts',
+    beforeEnter: workerGuard,
+    component: () => import('../views/Contacts.vue'),
   
   },
   {
     path: '/new',
     name: 'New Company',
-    beforeEnter: authGuard,
+    beforeEnter: workerGuard,
     component: () => import('../views/NewCompany.vue'),
   },
   {
     path: '/update',
     name: 'Update Company',
-    beforeEnter: authGuard,
+    beforeEnter: workerGuard,
     component: () => import('../views/UpdateCompany.vue'),
   },
   {
     path: '/companies',
     name: 'Companies',
-    beforeEnter: authGuard,
+    beforeEnter: userGuard,
     component: () => import('../views/Companies.vue'),
   },
   {

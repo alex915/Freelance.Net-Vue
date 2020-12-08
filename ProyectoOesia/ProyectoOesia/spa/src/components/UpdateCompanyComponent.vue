@@ -1,12 +1,15 @@
 <template>
   <div class="padding">
     <div class="box">
-      <v-row justify="center" class="pb-6">
+          <v-img
+      :src="'data:image/jpg;base64,'+ image" 
+      height="20vh"
+      class="mb-16"
+    ></v-img>
         <v-col cols="12">
           <h4>Actualiza tu empresa</h4>
         </v-col>
-      </v-row>
-      <v-row>
+      <v-row class="px-16">
         <v-col cols="12" lg="3">
           <v-text-field
             :rules="[requiredRules]"
@@ -87,7 +90,7 @@
             hint="Introduzca el código del pais"
           ></v-text-field>
         </v-col>
-        <v-col cols="9" md="4" lg="2">
+        <v-col cols="9" md="3" lg="2">
           <v-text-field
             v-model="phone"
             outlined
@@ -96,7 +99,7 @@
             hint="Introduzca el teléfono de contacto"
           ></v-text-field>
         </v-col>
-        <v-col cols="12" sm="12" md="6" lg="5">
+        <v-col cols="12" sm="12" md="7" lg="4">
           <v-text-field
             v-model="email"
             outlined
@@ -105,8 +108,21 @@
             hint="Introduzca el correo electrónico de contacto"
           ></v-text-field>
         </v-col>
-
-        <v-col cols="12" lg="4">
+        <v-col cols="12" sm="12" md="12" lg="5">
+          <v-file-input
+            :multiple="false"
+            :show-size="true"
+            label="Imagen"
+            append-icon="mdi-camera"
+            prepend-icon=""
+            accept="image/png, image/jpeg"
+            placeholder="Selecciona imagen"
+            outlined
+            @change="handleInput"
+          >
+          </v-file-input>
+        </v-col>
+        <v-col cols="12">
           <div class="switch">
             <v-switch v-model="fullTime" label="24h"></v-switch>
 
@@ -128,7 +144,7 @@
             class="margins"
           />
         </v-col>
-        <v-col cols="12" v-if="!remoteWork">
+        <v-col class="mt-8 mb-12" cols="12" v-if="!remoteWork">
           <v-slider
             v-model="maxDistance"
             color="primary"
@@ -179,10 +195,8 @@
         <v-card-title class="headline"
           >Estás seguro que quieres borrar la empresa?</v-card-title
         >
-         <v-spacer></v-spacer>
-        <v-card-subtitle
-          >Este proceso es irreversible.</v-card-subtitle
-        >
+        <v-spacer></v-spacer>
+        <v-card-subtitle>Este proceso es irreversible.</v-card-subtitle>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="blue darken-1" text @click="closeDelete"
@@ -252,6 +266,7 @@ export default class UpdateCompanyComponent extends Vue {
   public lon = 0;
 
   public dialogDelete = false;
+  public image = "";
 
   @Watch("dialogDelete")
   public dialogDeleteWatch(val: any) {
@@ -270,7 +285,22 @@ export default class UpdateCompanyComponent extends Vue {
       .finally(this.$spinner.removeSpinner());
     this.closeDelete();
   }
-
+ private handleInput(input: any) {
+    if (input.length > 0) {
+      let fileName = "";
+      fileName = input[0].name;
+      if (fileName.lastIndexOf(".") <= 0) {
+        return;
+      }
+      const fr = new FileReader();
+      fr.readAsDataURL(input[0]);
+      fr.addEventListener("load", () => {
+        this.image = input[0];
+      });
+    } else if (input.length === 0) {
+      this.image = "";
+    }
+  }
   public mounted() {
     this.$spinner.showSpinner();
     locationService
@@ -353,6 +383,7 @@ export default class UpdateCompanyComponent extends Vue {
     this.description = company.description;
     this.availability = company.availability;
     this.fullTime = company.fullTime;
+    this.image = company.image;
     this.remoteWork = company.maxDistance == -1;
   }
 
@@ -378,6 +409,7 @@ export default class UpdateCompanyComponent extends Vue {
       maxDistance: company.maxDistance,
       description: company.description,
       availability: company.availability,
+      image:company.image,
       fullTime: company.fullTime,
     };
     return companyObj;
@@ -401,6 +433,7 @@ export default class UpdateCompanyComponent extends Vue {
       maxDistance: this.remoteWork ? -1 : this.maxDistance,
       description: this.description,
       availability: this.availability,
+      image : this.image,
       fullTime: this.fullTime,
     };
     return company;
@@ -457,7 +490,6 @@ export default class UpdateCompanyComponent extends Vue {
   background: white;
   box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14),
     0 1px 5px 0 rgba(0, 0, 0, 0.12);
-  padding: 30px;
 }
 @media (max-width: 900px) {
   .btnCenter {

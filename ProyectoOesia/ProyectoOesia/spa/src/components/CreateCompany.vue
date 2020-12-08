@@ -203,20 +203,22 @@
       >
 
       <v-stepper-content step="5">
-        <v-row>
-          <v-col>
+        <v-row align="center">
+          <v-col cols="12" lg="6">
             <v-file-input
               :multiple="false"
               :show-size="true"
-              label="Avatar"
-              prepend-icon="mdi-camera"
+              label="Imagen"
+              append-icon="mdi-camera"
+              prepend-icon=""
               accept="image/png, image/jpeg"
-              placeholder="Selecciona la imagen de tu avatar"
+              placeholder="Selecciona imagen"
               outlined
               @change="handleInput"
             ></v-file-input>
           </v-col>
-          <v-col>
+          <v-col cols="12" lg="6" v-if="image"><v-img :src="url" height="25vh" ></v-img></v-col>
+          <v-col cols="12">
             <v-btn text @click="em--">Volver</v-btn>
             <v-btn color="primary" @click="em++">Siguiente</v-btn>
           </v-col>
@@ -226,6 +228,8 @@
       <v-stepper-step step="6">Resumen</v-stepper-step>
 
       <v-stepper-content step="6">
+        <v-img :src="url" height="150px"></v-img>
+
         <v-row>
           <v-col cols="12" lg="3">
             <v-text-field
@@ -389,7 +393,7 @@ export default class CreateCompany extends Vue {
   public maxDistance = -1;
   public em = 1;
   public description = "";
-  public avatar = "";
+  public image = "";
   public availability = true;
   public fullTime = true;
   public remoteWork = true;
@@ -406,6 +410,12 @@ export default class CreateCompany extends Vue {
     "175",
     "200",
   ];
+  public get url() {
+    if (this.image) {
+      return URL.createObjectURL(this.image);
+    }
+    return "";
+  }
   public mounted() {
     this.$spinner.showSpinner();
     locationService
@@ -441,10 +451,10 @@ export default class CreateCompany extends Vue {
       const fr = new FileReader();
       fr.readAsDataURL(input[0]);
       fr.addEventListener("load", () => {
-        this.avatar = input[0];
+        this.image = input[0];
       });
     } else if (input.length === 0) {
-      this.avatar = "";
+      this.image = "";
     }
   }
 
@@ -462,7 +472,7 @@ export default class CreateCompany extends Vue {
       Phone: this.phone,
       Email: this.email,
       ActivityId: this.activityId,
-      Image: this.avatar,
+      Image: this.image,
       MaxDistance: this.maxDistance,
       Description: this.description,
       Availability: this.availability,

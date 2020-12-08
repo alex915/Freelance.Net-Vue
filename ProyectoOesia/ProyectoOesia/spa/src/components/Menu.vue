@@ -13,7 +13,7 @@
       <v-list dense nav class="py-0 list-container">
         <v-list-item two-line :class="miniVariant && 'px-0'">
           <v-list-item-avatar>
-            <img :src="'data:image/jpg;base64,'+ user.avatar " />
+            <img :src="'data:image/jpg;base64,'+ user.avatar " srcset="..\assets\profile-user.png"  />
           </v-list-item-avatar>
 
           <v-list-item-content>
@@ -87,6 +87,7 @@ export default class Menu extends Vue {
     }
     else if(this.role == 'Worker' && this.hasCompany) {
       return [
+        { title: "Contactos", icon: "mdi-account-settings", path:"contacts" },
         { title: "Modificar Empresa", icon: "mdi-account-settings", path:"update" },
         { title: "Perfil", icon: "mdi-account-settings", path:"profile" },
       ];
