@@ -87,14 +87,12 @@
               </v-col>
               <v-col cols="12">
                 <v-file-input
-                  ref="inputFile"
                   :multiple="false"
                   :show-size="true"
-                 label="Avatar"
+                  label="Avatar"
                   prepend-icon="mdi-camera"
                   accept="image/png, image/jpeg"
                   placeholder="Selecciona la imagen de tu avatar"
-                  :value="avatar"
                   outlined
                   @change="handleInput"
                  

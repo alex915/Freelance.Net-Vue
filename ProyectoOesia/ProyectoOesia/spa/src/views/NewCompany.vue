@@ -1,22 +1,27 @@
 <template>
-  <div class="home">HOME!</div>
+  <div>
+    <create-company />
+  </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { authService } from "@/services/auth.service";
+import CreateCompany from "@/components/CreateCompany.vue";
 
 @Component({
-  components: {},
+  components: {
+    "create-company": CreateCompany,
+  },
 })
-export default class Home extends Vue {
+export default class NewCompany extends Vue {
   public get hasCompany(): boolean {
     return this.$store.getters["user"]?.company?.id != -1;
   }
 
   public created() {
-    if (!this.hasCompany) {
-      this.$router.push({ name: "New Company" });
+    if (this.hasCompany) {
+      this.$router.push({ name: "Home" });
     }
   }
 }

@@ -57,7 +57,6 @@ import { Component, Vue } from "vue-property-decorator";
 @Component
 export default class Menu extends Vue {
   public drawer = true;
-  public items: any[] = [];
   public color = "primary";
   public right = false;
   public permanent = true;
@@ -74,20 +73,32 @@ export default class Menu extends Vue {
    get role(): any {
     return this.$store.getters["rol"];
   }
+  public get hasCompany(): boolean {
+    return this.user?.company?.id != -1;
+  }
 
-  public mounted() {
+  public get items() {
     console.log(this.role);
     if(this.role == 'Admin') {
-      this.items = [
+      return [
         { title: "Compañias", icon: "mdi-home", path:"admin" },
         { title: "Usuarios", icon: "mdi-account-settings", path:"users" },
       ];
-    } else if(this.role == 'Worker') {
-      this.items = [
+    }
+    else if(this.role == 'Worker' && this.hasCompany) {
+      return [
+        { title: "Modificar Empresa", icon: "mdi-account-settings", path:"profile" },
         { title: "Perfil", icon: "mdi-account-settings", path:"profile" },
       ];
-    } else {
-      this.items = [
+    } 
+    else if(this.role == 'Worker' && !this.hasCompany) {
+      return [
+        { title: "Crear Empresa", icon: "mdi-account-settings", path:"new" },
+        { title: "Perfil", icon: "mdi-account-settings", path:"profile" },
+      ];
+    } 
+    else {
+      return [
         { title: "Perfil", icon: "mdi-account-settings", path:"profile" },
       ];
     }

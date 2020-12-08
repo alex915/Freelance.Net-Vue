@@ -49,6 +49,13 @@ const routes: Array<RouteConfig> = [
     name: 'Search',
     beforeEnter: authGuard,
     component: () => import('../views/Search.vue'),
+  
+  },
+  {
+    path: '/new',
+    name: 'New Company',
+    beforeEnter: authGuard,
+    component: () => import('../views/NewCompany.vue'),
   },
   {
     path: '/profile',
@@ -81,8 +88,8 @@ const routes: Array<RouteConfig> = [
     component: () => import('../views/admin/Users.vue')
   },
   {
-    path: '**',
-    redirect: 'Home',
+    path: '*',
+    redirect: '/',
   }
 ]
 
