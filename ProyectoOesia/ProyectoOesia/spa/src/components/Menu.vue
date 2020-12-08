@@ -87,7 +87,7 @@ export default class Menu extends Vue {
     }
     else if(this.role == 'Worker' && this.hasCompany) {
       return [
-        { title: "Modificar Empresa", icon: "mdi-account-settings", path:"profile" },
+        { title: "Modificar Empresa", icon: "mdi-account-settings", path:"update" },
         { title: "Perfil", icon: "mdi-account-settings", path:"profile" },
       ];
     } 
@@ -100,6 +100,7 @@ export default class Menu extends Vue {
     else {
       return [
         { title: "Perfil", icon: "mdi-account-settings", path:"profile" },
+        { title: "Empresas", icon: "mdi-account-settings", path:"companies" },
       ];
     }
   }

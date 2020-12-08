@@ -1,17 +1,19 @@
 <template>
-  <div >
-    homee
+  <div>
+    <update-company />
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { authService } from "@/services/auth.service";
+import UpdateCompanyComponent from "@/components/UpdateCompanyComponent.vue";
 
 @Component({
-  components: {},
+  components: {
+    "update-company": UpdateCompanyComponent,
+  },
 })
-export default class Home extends Vue {
+export default class UpdateCompany extends Vue {
   public get hasCompany(): boolean {
     return this.$store.getters["user"]?.company?.id != -1;
   }

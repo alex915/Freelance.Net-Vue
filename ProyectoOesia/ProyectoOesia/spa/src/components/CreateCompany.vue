@@ -1,11 +1,11 @@
 <template>
   <div class="padding">
     <v-stepper v-model="em" vertical>
-    <v-row justify="center" class="pb-6">
-      <v-col cols="12">
-        <h4>Crea tu empresa</h4>
-      </v-col>
-    </v-row>
+      <v-row justify="center" class="pb-6">
+        <v-col cols="12">
+          <h4>Crea tu empresa</h4>
+        </v-col>
+      </v-row>
       <v-stepper-step step="1">Datos de la empresa</v-stepper-step>
 
       <v-stepper-content step="1">
@@ -199,12 +199,23 @@
       </v-stepper-content>
 
       <v-stepper-step step="5"
-        >Redes Sociales <small>Opcional</small></v-stepper-step
+        >Imagen y Redes Sociales <small>Opcional</small></v-stepper-step
       >
 
       <v-stepper-content step="5">
         <v-row>
-          <v-col> </v-col>
+          <v-col>
+            <v-file-input
+              :multiple="false"
+              :show-size="true"
+              label="Avatar"
+              prepend-icon="mdi-camera"
+              accept="image/png, image/jpeg"
+              placeholder="Selecciona la imagen de tu avatar"
+              outlined
+              @change="handleInput"
+            ></v-file-input>
+          </v-col>
           <v-col>
             <v-btn text @click="em--">Volver</v-btn>
             <v-btn color="primary" @click="em++">Siguiente</v-btn>
@@ -357,6 +368,7 @@ import { Component } from "vue-property-decorator";
 import { locationService } from "@/services/locations.service";
 import { activitiesService } from "@/services/activities.service";
 import { companiesService } from "@/services/companies.service";
+import { authService } from "@/services/auth.service";
 
 @Component
 export default class CreateCompany extends Vue {
@@ -377,6 +389,7 @@ export default class CreateCompany extends Vue {
   public maxDistance = -1;
   public em = 1;
   public description = "";
+  public avatar = "";
   public availability = true;
   public fullTime = true;
   public remoteWork = true;
@@ -417,6 +430,24 @@ export default class CreateCompany extends Vue {
   public res() {
     this.maxDistance -= 25;
   }
+
+  private handleInput(input: any) {
+    if (input.length > 0) {
+      let fileName = "";
+      fileName = input[0].name;
+      if (fileName.lastIndexOf(".") <= 0) {
+        return;
+      }
+      const fr = new FileReader();
+      fr.readAsDataURL(input[0]);
+      fr.addEventListener("load", () => {
+        this.avatar = input[0];
+      });
+    } else if (input.length === 0) {
+      this.avatar = "";
+    }
+  }
+
   public createCompany() {
     this.$spinner.showSpinner();
     const company = {
@@ -431,6 +462,7 @@ export default class CreateCompany extends Vue {
       Phone: this.phone,
       Email: this.email,
       ActivityId: this.activityId,
+      Image: this.avatar,
       MaxDistance: this.maxDistance,
       Description: this.description,
       Availability: this.availability,
@@ -438,8 +470,14 @@ export default class CreateCompany extends Vue {
     };
     companiesService
       .createCompany(company)
-      .then((x) => {
-        console.log(x.data);
+      .then(() => {
+        this.$spinner.showSpinner();
+        authService
+          .getUser()
+          .then((x) => {
+            this.$store.dispatch("setUser", x.data);
+          })
+          .finally(this.$spinner.removeSpinner());
         this.$router.push({ name: "Home" });
       })
       .catch((x) => console.log(x))

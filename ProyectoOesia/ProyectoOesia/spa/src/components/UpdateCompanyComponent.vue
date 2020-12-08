@@ -212,7 +212,7 @@ import { usersService } from "@/services/users.service";
     maps: StaticMap,
   },
 })
-export default class UpdateCompany extends Vue {
+export default class UpdateCompanyComponent extends Vue {
   public isValid = false;
   public cif = "";
   public nameCompany = "";

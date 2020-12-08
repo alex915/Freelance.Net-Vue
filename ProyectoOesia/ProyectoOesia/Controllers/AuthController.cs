@@ -138,7 +138,7 @@ namespace ProyectoOesia.Controllers
             user.FirstName = userDto.FirstName;
             user.Ext = userDto.Ext;
 
-            if (userDto.Avatar.Length > 0)
+            if (userDto.Avatar != null & userDto.Avatar.Length > 0)
             {
                 using var ms = new MemoryStream();
                 userDto.Avatar.CopyTo(ms);

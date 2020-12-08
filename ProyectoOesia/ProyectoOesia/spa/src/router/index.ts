@@ -58,6 +58,18 @@ const routes: Array<RouteConfig> = [
     component: () => import('../views/NewCompany.vue'),
   },
   {
+    path: '/update',
+    name: 'Update Company',
+    beforeEnter: authGuard,
+    component: () => import('../views/UpdateCompany.vue'),
+  },
+  {
+    path: '/companies',
+    name: 'Companies',
+    beforeEnter: authGuard,
+    component: () => import('../views/Companies.vue'),
+  },
+  {
     path: '/profile',
     name: 'UpdateUser',
     beforeEnter: authGuard,

@@ -2,11 +2,36 @@ import Axios, { AxiosResponse } from 'axios';
 
 class Companies {
  public createCompany(company: any) {
-     return Axios.post('./api/Companies',company);
+    const config = {
+        headers: {
+            'content-type': 'multipart/form-data',
+          },
+      };
+      const formData = new FormData();
+      for (const key in company) {
+        if (Object.prototype.hasOwnProperty.call(company, key)) {
+          const element = company[key];
+          formData.append(key, element);
+        }
+      }
+      return Axios.post(`./api/Companies`, formData, config); 
  }
  
  public updateCompany(company: any) {
-     return Axios.put('./api/Companies/'+company.id,company);
+    const config = {
+        headers: {
+            'content-type': 'multipart/form-data',
+          },
+      };
+      const formData = new FormData();
+      for (const key in company) {
+        if (Object.prototype.hasOwnProperty.call(company, key)) {
+          const element = company[key];
+          formData.append(key, element);
+        }
+      }
+      return Axios.put(`./api/Companies/${company.id}`, formData, config); 
+   
  }
  
  public getCompanies() {
