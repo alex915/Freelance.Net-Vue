@@ -1,9 +1,12 @@
 ﻿using Data;
+using Geolocation;
+using Google.Type;
 using IdentityServer4.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Models;
+using Nest;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -77,7 +80,20 @@ namespace ProyectoOesia.Controllers
                 return Ok(data);
 
         }
+        [HttpGet("posts/{postId:int:min(1)}")]
 
+        public double HaversineDistance(LatLng pos1, LatLng pos2, Geolocation.DistanceUnit unit)
+        {
+            double distance = GeoCalculator.GetDistance(34.0675918, -118.3977091, 34.076234 - 118.395314, 1);
+            double R = (unit == Geolocation.DistanceUnit.Kilometers) ? 3960 : 6371;
+            var lat = (pos2.Latitude - pos1.Latitude).ToRadian();
+            var lng = (pos2.Longitude - pos1.Longitude).ToRadian();
+            var h1 = Math.Sin(lat / 2) * Math.Sin(lat / 2) +
+                          Math.Cos(pos1.Latitude.ToRadian()) * Math.Cos(pos2.Latitude.ToRadian()) *
+                          Math.Sin(lng / 2) * Math.Sin(lng / 2);
+            var h2 = 2 * Math.Asin(Math.Min(1, Math.Sqrt(h1)));
+            return R * h2;
+        }
 
 
 
