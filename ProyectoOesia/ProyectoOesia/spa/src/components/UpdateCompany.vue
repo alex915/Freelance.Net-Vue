@@ -2,10 +2,10 @@
   <div class="padding">
     <div class="box">
       <v-row justify="center" class="pb-6">
-              <v-col cols="12">
-                <h4>Actualiza tu empresa</h4>
-              </v-col>
-            </v-row>
+        <v-col cols="12">
+          <h4>Actualiza tu empresa</h4>
+        </v-col>
+      </v-row>
       <v-row>
         <v-col cols="12" lg="3">
           <v-text-field
@@ -170,20 +170,42 @@
           <v-btn v-if="availability" color="warning" @click="disableCompany"
             >Desactivar temporalmente</v-btn
           >
-          <v-btn color="error">Dar de baja</v-btn>
+          <v-btn color="error" @click="dialogDelete = true">Dar de baja</v-btn>
         </div>
       </v-row>
     </div>
+    <v-dialog v-model="dialogDelete" max-width="500px">
+      <v-card>
+        <v-card-title class="headline"
+          >Estás seguro que quieres borrar la empresa?</v-card-title
+        >
+         <v-spacer></v-spacer>
+        <v-card-subtitle
+          >Este proceso es irreversible.</v-card-subtitle
+        >
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="blue darken-1" text @click="closeDelete"
+            >Cancelar</v-btn
+          >
+          <v-btn color="blue darken-1" text @click="deleteItemConfirm"
+            >OK</v-btn
+          >
+          <v-spacer></v-spacer>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-import { Component } from "vue-property-decorator";
+import { Component, Watch } from "vue-property-decorator";
 import { locationService } from "@/services/locations.service";
 import { activitiesService } from "@/services/activities.service";
 import { companiesService } from "@/services/companies.service";
 import StaticMap from "./StaticMap.vue";
+import { usersService } from "@/services/users.service";
 
 @Component({
   components: {
@@ -228,6 +250,26 @@ export default class UpdateCompany extends Vue {
   public user: any;
   public lat = 0;
   public lon = 0;
+
+  public dialogDelete = false;
+
+  @Watch("dialogDelete")
+  public dialogDeleteWatch(val: any) {
+    val || this.closeDelete();
+  }
+  public closeDelete() {
+    this.dialogDelete = false;
+  }
+  public deleteItemConfirm() {
+    this.$spinner.showSpinner();
+    companiesService
+      .deleteCompany(this.id)
+      .then((response: any) => {
+        this.$router.push({ name: "Login" });
+      })
+      .finally(this.$spinner.removeSpinner());
+    this.closeDelete();
+  }
 
   public mounted() {
     this.$spinner.showSpinner();

@@ -10,8 +10,20 @@ class AuthService {
     public register(user: object) {
         return Axios.post(`./api/auth`,user);
     }
-    public update(user: object) {
-        return Axios.put(`./api/auth`,user);
+    public update(user: any) {
+        const config = {
+            headers: {
+                'content-type': 'multipart/form-data',
+              },
+          };
+          const formData = new FormData();
+          for (const key in user) {
+            if (Object.prototype.hasOwnProperty.call(user, key)) {
+              const element = user[key];
+              formData.append(key, element);
+            }
+          }
+          return Axios.put(`./api/auth`, formData, config); 
     }
    
     public getUser() {

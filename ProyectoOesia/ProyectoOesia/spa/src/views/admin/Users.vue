@@ -4,18 +4,18 @@
   <div>
     <v-data-table
       :headers="headers"
-      :items="companies"
-      sort-by="calories"
+      :items="users"
+      sort-by="email"
       class="elevation-1"
     >
       <template v-slot:top>
         <v-toolbar flat>
-          <v-toolbar-title>Compañias</v-toolbar-title>
+          <v-toolbar-title>Usuarios</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-dialog v-model="dialogDelete" max-width="500px">
             <v-card>
               <v-card-title class="headline"
-                >Estás seguro que quieres borrar esta compañia?</v-card-title
+                >Estás seguro que quieres borrar este usuario?</v-card-title
               >
               <v-spacer></v-spacer>
               <v-card-subtitle>Este proceso es irreversible.</v-card-subtitle>
@@ -33,6 +33,9 @@
           </v-dialog>
         </v-toolbar>
       </template>
+      <template v-slot:item.emailConfirmed="{ item }">
+        {{ item.emailConfirmed ? "Si" : "No" }}
+      </template>
       <template v-slot:item.actions="{ item }">
         <v-icon small @click="deleteItem(item)"> mdi-delete </v-icon>
       </template>
@@ -42,28 +45,23 @@
 </template>
 
 <script lang="ts">
-import { authService } from "@/services/auth.service";
-import { companiesService } from "@/services/companies.service";
+import { usersService } from "@/services/users.service";
 import { Component, Vue, Watch } from "vue-property-decorator";
 
 @Component
-export default class Admin extends Vue {
+export default class Users extends Vue {
   public dialog = false;
   public dialogDelete = false;
   public headers = [
-    { text: "Identificador", value: "identifier" },
-    { text: "Compañia", value: "companyName" },
+    { text: "Nombre", value: "firstName" },
+    { text: "Apellido", value: "lastName" },
     { text: "Email", value: "email" },
-    { text: "Telefono", value: "phone" },
-    { text: "Dirección", value: "address" },
-    { text: "Código postal", value: "pc" },
-    { text: "Ciudad", value: "city" },
-    { text: "Provincia", value: "province" },
-    { text: "País", value: "country" },
+    { text: "Telefono", value: "phoneNumber" },
+    { text: "Email confirmado?", value: "emailConfirmed" },
     { text: "", value: "actions", sortable: false },
   ];
 
-  public companies: any[] = [];
+  public users: any[] = [];
   public deletedIndex = -1;
   public deletedItem = {};
   public defaultItem = {};
@@ -74,40 +72,32 @@ export default class Admin extends Vue {
   }
 
   public created() {
-    this.$spinner.showSpinner();
-    authService
-      .getUser()
-      .then((x) => {
-        this.$store.dispatch("setUser", x.data);
-      })
-      .finally(this.$spinner.removeSpinner());
     this.initialize();
   }
 
   public initialize() {
     this.$spinner.showSpinner();
-    companiesService
-      .getCompanies()
+    usersService
+      .get()
       .then((response: any) => {
-        console.log(response.data.$values);
-        this.companies = response.data.$values;
+        this.users = response.data.$values;
       })
       .finally(this.$spinner.removeSpinner());
   }
 
   public deleteItem(item: any) {
-    this.deletedIndex = this.companies.indexOf(item);
+    this.deletedIndex = this.users.indexOf(item);
     this.deletedItem = Object.assign({}, item);
     this.dialogDelete = true;
   }
 
   public deleteItemConfirm() {
     this.$spinner.showSpinner();
-    const company = this.companies[this.deletedIndex];
-    companiesService
-      .deleteCompany(company.id)
+    const user = this.users[this.deletedIndex];
+    usersService
+      .delete(user.id)
       .then((response: any) => {
-        this.companies.splice(this.deletedIndex, 1);
+        this.users.splice(this.deletedIndex, 1);
       })
       .finally(this.$spinner.removeSpinner());
     this.closeDelete();

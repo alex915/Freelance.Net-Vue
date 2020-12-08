@@ -10,10 +10,10 @@
       fixed
       dark
     >
-      <v-list dense nav class="py-0">
+      <v-list dense nav class="py-0 list-container">
         <v-list-item two-line :class="miniVariant && 'px-0'">
           <v-list-item-avatar>
-            <img src="https://randomuser.me/api/portraits/men/81.jpg" />
+            <img :src="'data:image/jpg;base64,'+ user.avatar " />
           </v-list-item-avatar>
 
           <v-list-item-content>
@@ -33,9 +33,20 @@
             <v-list-item-content>
               <v-list-item-title>{{ item.title }}</v-list-item-title>
             </v-list-item-content>
+        </v-list-item>
+        
+        <v-list-item class="logout" @click="logout" link>
+          
+            <v-list-item-icon>
+              <v-icon>mdi-logout</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>Cerrar sesion</v-list-item-title>
+            </v-list-item-content>
          
         </v-list-item>
       </v-list>
+     
     </v-navigation-drawer>
   </div>
 </template>
@@ -46,12 +57,7 @@ import { Component, Vue } from "vue-property-decorator";
 @Component
 export default class Menu extends Vue {
   public drawer = true;
-  public items = [
-    { title: "Novedades", icon: "mdi-home", path:"" },
-    { title: "Contactos", icon: "mdi-email", path:"" },
-    { title: "Favoritos", icon: "mdi-star", path:"" },
-    { title: "Perfil", icon: "mdi-account-settings", path:"profile" },
-  ];
+  public items: any[] = [];
   public color = "primary";
   public right = false;
   public permanent = true;
@@ -65,9 +71,44 @@ export default class Menu extends Vue {
    get token(): any {
     return this.$store.getters["token"];
   }
+   get role(): any {
+    return this.$store.getters["rol"];
+  }
+
+  public mounted() {
+    console.log(this.role);
+    if(this.role == 'Admin') {
+      this.items = [
+        { title: "Compañias", icon: "mdi-home", path:"admin" },
+        { title: "Usuarios", icon: "mdi-account-settings", path:"users" },
+      ];
+    } else if(this.role == 'Worker') {
+      this.items = [
+        { title: "Perfil", icon: "mdi-account-settings", path:"profile" },
+      ];
+    } else {
+      this.items = [
+        { title: "Perfil", icon: "mdi-account-settings", path:"profile" },
+      ];
+    }
+  }
+
+  public logout(): void {
+    this.$store.dispatch("clear");
+    this.$router.push({ name: 'Login' });
+  }
 
 }
 </script>
 
 <style lang="scss" scoped>
+.list-container {
+  position: relative;
+  height: 100%;
+}
+.logout {
+  position: absolute;
+  bottom: 20px;
+  width: 100%;
+}
 </style>

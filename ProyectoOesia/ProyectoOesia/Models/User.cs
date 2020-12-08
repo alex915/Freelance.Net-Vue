@@ -12,7 +12,8 @@ namespace Models
         }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string Ext { get; internal set; }
+        public string Ext { get; set; }
+        public byte[] Avatar { get; set; }
         public virtual Company Company { get; set; }
         public virtual ICollection<Contact> Contacts { get; set; }
 

@@ -12,6 +12,7 @@ using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -64,10 +65,11 @@ namespace ProyectoOesia.Controllers
             if (userSigninResult)
             {
                 _logger.LogInformation("User login ok");
-                return Ok(new { 
+                return Ok(new
+                {
                     Token = GenerateJwt(user, await _userManager.GetRolesAsync(user)),
                     Rol = (await _userManager.GetRolesAsync(user)).FirstOrDefault(),
-                });;
+                }); ;
             }
             _logger.LogError("User cannot login");
             return BadRequest("Email or password incorrect.");
@@ -82,6 +84,7 @@ namespace ProyectoOesia.Controllers
             user.LastName = userDto.LastName;
             user.FirstName = userDto.FirstName;
             user.PhoneNumber = userDto.Phone;
+
             user.Ext = userDto.Ext;
 
             var userCreateResult = await _userManager.CreateAsync(user, userDto.Password);
@@ -123,17 +126,26 @@ namespace ProyectoOesia.Controllers
             return Ok(user);
         }
 
-       
 
-      
+
+
 
         [HttpPut]
-        public async Task<IActionResult> UpdateUser([FromBody] UserDtoUpdate userDto)
+        public async Task<IActionResult> UpdateUser([FromForm] UserDtoUpdate userDto)
         {
             var user = await _userManager.GetUserAsync(User);
             user.LastName = userDto.LastName;
             user.FirstName = userDto.FirstName;
             user.Ext = userDto.Ext;
+
+            if (userDto.Avatar.Length > 0)
+            {
+                using var ms = new MemoryStream();
+                userDto.Avatar.CopyTo(ms);
+                var fileBytes = ms.ToArray();
+                user.Avatar = fileBytes;
+            }
+
             if (!await _userManager.CheckPasswordAsync(user, userDto.OldPassword))
             {
                 return Conflict();
@@ -188,6 +200,6 @@ namespace ProyectoOesia.Controllers
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-    
+
     }
 }

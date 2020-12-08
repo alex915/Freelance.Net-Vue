@@ -20,10 +20,12 @@ function authGuard(to: any, from: any, next: any) {
 
 function adminGuard(to: any, from: any, next: any) {
   const stateRole = store.state.rol.toLowerCase();
-  if (stateRole === roleAdmin) {
+  if (!store.state.token) {
+    next('/login');
+  } else if(stateRole === roleAdmin) {
     next();
   } else {
-    next('/');
+    next('/')
   }
 }
 
@@ -71,6 +73,12 @@ const routes: Array<RouteConfig> = [
     name: 'Admin',
     beforeEnter: adminGuard,
     component: () => import('../views/admin/Admin.vue')
+  },
+  {
+    path: '/users',
+    name: 'Users',
+    beforeEnter: adminGuard,
+    component: () => import('../views/admin/Users.vue')
   },
   {
     path: '**',

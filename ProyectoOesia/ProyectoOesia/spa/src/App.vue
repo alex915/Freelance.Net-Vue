@@ -28,6 +28,10 @@ import Menu from "./components/Menu.vue";
 export default class App extends Vue {}
 </script>
 <style>
+body {
+  background-color: whitesmoke;
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -36,6 +40,7 @@ export default class App extends Vue {}
   color: #2c3e50;
   background-color: whitesmoke;
   min-width: 450px;
+  margin-left: 56px;
 }
 
 #nav {

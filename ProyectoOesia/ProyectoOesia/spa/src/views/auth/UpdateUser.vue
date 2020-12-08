@@ -1,5 +1,5 @@
 <template>
-  <div class="updateUser ">
+  <div class="updateUser">
     <div class="shadow">
       <v-row justify="center">
         <v-col class="padding" cols="11" sm="12" md="12" lg="8">
@@ -85,6 +85,21 @@
                   autocomplete="new-password"
                 ></v-text-field>
               </v-col>
+              <v-col cols="12">
+                <v-file-input
+                  ref="inputFile"
+                  :multiple="false"
+                  :show-size="true"
+                 label="Avatar"
+                  prepend-icon="mdi-camera"
+                  accept="image/png, image/jpeg"
+                  placeholder="Selecciona la imagen de tu avatar"
+                  :value="avatar"
+                  outlined
+                  @change="handleInput"
+                 
+                ></v-file-input>
+              </v-col>
               <v-col cols="12" sm="9" md="6" lg="6">
                 <v-text-field
                   v-model="oldPassword"
@@ -102,17 +117,42 @@
               <v-col>
                 <v-btn color="primary" type="submit">Guardar cambios</v-btn>
               </v-col>
+              <v-col>
+                <v-btn color="error" @click="dialogDelete = true"
+                  >Dar de baja</v-btn
+                >
+              </v-col>
             </v-row>
           </v-form>
         </v-col>
       </v-row>
     </div>
+    <v-dialog v-model="dialogDelete" max-width="500px">
+      <v-card>
+        <v-card-title class="headline"
+          >Estás seguro que quieres darte de baja?</v-card-title
+        >
+        <v-spacer></v-spacer>
+        <v-card-subtitle>Este proceso es irreversible.</v-card-subtitle>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="blue darken-1" text @click="closeDelete"
+            >Cancelar</v-btn
+          >
+          <v-btn color="blue darken-1" text @click="deleteItemConfirm"
+            >OK</v-btn
+          >
+          <v-spacer></v-spacer>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
 <script lang="ts">
 import { authService } from "@/services/auth.service";
-import { Component, Vue } from "vue-property-decorator";
+import { usersService } from "@/services/users.service";
+import { Component, Vue, Watch } from "vue-property-decorator";
 
 @Component
 export default class UpdateUser extends Vue {
@@ -122,11 +162,33 @@ export default class UpdateUser extends Vue {
   public email = "";
   public ext = "";
   public phone = "";
+  public avatar = "";
   public newPassword = "";
   public confirmPassword = "";
   public oldPassword = "";
   public showLoading = false;
+  public dialogDelete = false;
 
+  @Watch("dialogDelete")
+  public dialogDeleteWatch(val: any) {
+    val || this.closeDelete();
+  }
+  public closeDelete() {
+    console.log(this.avatar);
+    this.dialogDelete = false;
+  }
+  public deleteItemConfirm() {
+    this.$spinner.showSpinner();
+    const user = this.$store.getters["user"];
+    usersService
+      .delete(user.id)
+      .then((response: any) => {
+        this.$store.dispatch("clear");
+        this.$router.push({ name: "Login" });
+      })
+      .finally(this.$spinner.removeSpinner());
+    this.closeDelete();
+  }
   public requiredRules = (v: string) => !!v || "Este campo es obligatorio";
   public passwordsRules = (v: string) =>
     v == this.newPassword || "Las contraseñas no coinciden";
@@ -139,12 +201,36 @@ export default class UpdateUser extends Vue {
     (value: string) => !!value || "Please type password.",
     (value: string) => (value && value.length >= 6) || "minimum 6 characters",
   ];
+  public sizeRules = [
+    (value: any) =>
+      !value || value.size < 2000000 || "Avatar size should be less than 2 MB!",
+  ];
 
   public confirmPasswordRules = [
     (value: string) => !!value || "type confirm password",
     (value: string) =>
       value === this.newPassword || "The password confirmation does not match.",
   ];
+
+private handleInput(input: any) {
+      if (input.length > 0) {
+        let fileName = '';
+        fileName = input[0].name;
+        if (fileName.lastIndexOf('.') <= 0) {
+          return;
+        }
+          const fr = new FileReader();
+          fr.readAsDataURL(input[0]);
+          fr.addEventListener('load', () => {
+            this.avatar= input[0];
+          });
+      } else if (input.length ===  0) {
+            this.avatar= '';
+      }
+    }
+
+
+
 
   public mounted() {
     const user = this.$store.getters["user"];
@@ -158,6 +244,8 @@ export default class UpdateUser extends Vue {
   public update(): void {
     this.showLoading = true;
     this.$spinner.showSpinner();
+    console.log(this.avatar);
+   
     const user = {
       FirstName: this.firstName,
       LastName: this.lastName,
@@ -165,12 +253,15 @@ export default class UpdateUser extends Vue {
       OldPassword: this.oldPassword,
       NewPassword: this.newPassword,
       Ext: this.ext,
+      Avatar: this.avatar,
       Phone: this.phone,
     };
     authService
       .update(user)
       .then(() => {
-        this.$router.push({ name: "Login" });
+        console.log(user);
+        this.$store.dispatch("setUser", user);
+        this.$router.push({ name: "Home" });
       })
       .catch((error: Error) => {
         console.log(error);
@@ -209,7 +300,6 @@ a {
   margin-right: 15px;
 }
 .updateUser {
-  margin-left: 56px;
   padding: 10px;
 }
 .padding {

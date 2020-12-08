@@ -68,7 +68,4 @@ export default class Home extends Vue {
 </script>
 
 <style>
-.home {
-  margin-left: 56px;
-}
 </style>

@@ -33,6 +33,12 @@ export default new Vuex.Store({
         state.spinners--;
       }
     },
+    clear(state) {
+      state.rol = '';
+      state.spinners = 0
+      state.user = {};
+      state.token = '';
+    },
   },
   actions: {
     setToken: (state, token) => {
@@ -50,13 +56,16 @@ export default new Vuex.Store({
     removeSpinner: (state) => {
       state.commit('removeSpinner');
     },
+    clear: (state) => {
+      state.commit('clear');
+    },
   },
   getters: {
     token: (state) => {
       return state.token;
     },
     rol: (state) => {
-      return state.token;
+      return state.rol;
     },
     user: (state) => {
       return state.user;
