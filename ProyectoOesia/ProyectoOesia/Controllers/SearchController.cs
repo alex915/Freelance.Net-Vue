@@ -44,9 +44,9 @@ namespace ProyectoOesia.Controllers
 
 
         }
-        
+
         [HttpGet("provincia")]
-        public async Task<IActionResult> provincia (string province, string city)
+        public async Task<IActionResult> provincia(string province, string city)
         {
             List<Company> companies = await _context.Companies.OrderBy(p => p.Province).ToListAsync();
             var data = companies.Select(g => g.City).Distinct().ToList();
@@ -73,29 +73,28 @@ namespace ProyectoOesia.Controllers
             var data = companies.Select(g => g.FullTime).Distinct().ToList();
 
             if (fulltime == true)
-                    {
-                       
-                    }
+            {
 
-                return Ok(data);
+            }
+
+            return Ok(data);
 
         }
-        [HttpGet("posts/{postId:int:min(1)}")]
+        [HttpGet("hola")]
 
-        public double HaversineDistance(LatLng pos1, LatLng pos2, Geolocation.DistanceUnit unit)
+        public async Task<IActionResult> HaversineDistance(double pos1Lat, double pos1Lng, double pos2Lat, double pos2Lng)
         {
             double distance = GeoCalculator.GetDistance(34.0675918, -118.3977091, 34.076234 - 118.395314, 1);
-            double R = (unit == Geolocation.DistanceUnit.Kilometers) ? 3960 : 6371;
-            var lat = (pos2.Latitude - pos1.Latitude).ToRadian();
-            var lng = (pos2.Longitude - pos1.Longitude).ToRadian();
+            double R =  3960;
+            var lat = (pos2Lat - pos1Lat).ToRadian();
+            var lng = (pos2Lng - pos1Lng).ToRadian();
             var h1 = Math.Sin(lat / 2) * Math.Sin(lat / 2) +
-                          Math.Cos(pos1.Latitude.ToRadian()) * Math.Cos(pos2.Latitude.ToRadian()) *
+                          Math.Cos(pos1Lat.ToRadian()) * Math.Cos(pos2Lat.ToRadian()) *
                           Math.Sin(lng / 2) * Math.Sin(lng / 2);
             var h2 = 2 * Math.Asin(Math.Min(1, Math.Sqrt(h1)));
-            return R * h2;
+            return Ok( R * h2);
         }
-        public enum DistanceUnit {Kilometers};
-
+        
 
 
     }
