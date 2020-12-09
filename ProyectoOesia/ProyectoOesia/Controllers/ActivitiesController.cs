@@ -21,7 +21,6 @@ namespace ProyectoOesia.Controllers
             _context = context;
         }
 
-        // GET: api/Activities
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Activity>>> GetActivity()
         {

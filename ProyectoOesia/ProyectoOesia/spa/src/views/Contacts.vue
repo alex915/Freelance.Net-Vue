@@ -90,12 +90,20 @@
                 </v-toolbar>
                 <v-card-text>
                   <!-- <span v-html="selectedEvent.details"></span> -->
-                  <a class="link" :append-icon="mdi-email" :href="'mailTo:' + selectedEvent.email">
-                   <v-icon>mdi-email</v-icon>   {{ selectedEvent.email }}
+                  <a
+                    class="link"
+                    :append-icon="mdi - email"
+                    :href="'mailTo:' + selectedEvent.email"
+                  >
+                    <v-icon>mdi-email</v-icon> {{ selectedEvent.email }}
                   </a>
                   <v-divider class="my-4"></v-divider>
-                  <a class="link" :href="'tel:+' + selectedEvent.ext + selectedEvent.phone">
-                   <v-icon>mdi-phone</v-icon>  +{{ selectedEvent.ext}} {{ selectedEvent.phone }}
+                  <a
+                    class="link"
+                    :href="'tel:+' + selectedEvent.ext + selectedEvent.phone"
+                  >
+                    <v-icon>mdi-phone</v-icon> +{{ selectedEvent.ext }}
+                    {{ selectedEvent.phone }}
                   </a>
                 </v-card-text>
                 <v-card-actions>
@@ -155,7 +163,7 @@ export default class Contacts extends Vue {
       .then(() => {
         this.selectedEvent.contacted = true;
         this.selectedEvent.color = this.colors[1];
-        this.$refs.calendar.checkChange();
+        (this.$refs.calendar as any).checkChange();
         this.selectedOpen = false;
       })
       .finally(this.$spinner.removeSpinner());
@@ -171,12 +179,12 @@ export default class Contacts extends Vue {
           return contact;
         });
         this.updateRange();
-        this.$refs.calendar.checkChange();
+        (this.$refs.calendar as any).checkChange();
       })
       .finally(this.$spinner.removeSpinner());
   }
-  public viewDay({ date }) {
-    this.focus = date;
+  public viewDay(x: any) {
+    this.focus = x.date;
     this.type = "day";
   }
   public getEventColor(event: any) {
@@ -186,15 +194,15 @@ export default class Contacts extends Vue {
     this.focus = "";
   }
   public prev() {
-    this.$refs.calendar.prev();
+    (this.$refs.calendar as any).prev();
   }
   public next() {
-    this.$refs.calendar.next();
+    (this.$refs.calendar as any).next();
   }
-  public showEvent({ nativeEvent, event }) {
+  public showEvent(x: any) {
     const open = () => {
-      this.selectedEvent = event;
-      this.selectedElement = nativeEvent.target;
+      this.selectedEvent = x.event;
+      this.selectedElement = x.nativeEvent.target;
       setTimeout(() => (this.selectedOpen = true), 10);
     };
 
@@ -204,8 +212,7 @@ export default class Contacts extends Vue {
     } else {
       open();
     }
-
-    nativeEvent.stopPropagation();
+    x.nativeEvent.stopPropagation();
   }
   public updateRange() {
     const events: any[] = [];
@@ -248,12 +255,12 @@ export default class Contacts extends Vue {
 ::v-deep .v-present .v-btn__content {
   color: white;
 }
-.link{
-      color: grey;
-    text-decoration: none;
+.link {
+  color: grey;
+  text-decoration: none;
 }
-.link:hover{
-      color: #2f9fe9;
+.link:hover {
+  color: #2f9fe9;
 }
 @media (max-width: 720px) {
   .padding > div {

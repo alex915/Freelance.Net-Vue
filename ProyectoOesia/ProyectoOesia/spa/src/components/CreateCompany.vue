@@ -549,7 +549,7 @@ export default class CreateCompany extends Vue {
 @media (max-width: 720px) {
   .v-stepper__wrapper div.start div {
     display: flex;
-    justify-content: start;
+    justify-content: flex-start;
     padding-left: 10px;
   }
 }
