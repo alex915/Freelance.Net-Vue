@@ -7,6 +7,9 @@
       :items="users"
       sort-by="email"
       class="elevation-1"
+      mobile-breakpoint="850"
+      :calculate-widths="true"
+      item-key="identifier"
     >
       <template v-slot:top>
         <v-toolbar flat>
@@ -34,7 +37,24 @@
         </v-toolbar>
       </template>
       <template v-slot:item.emailConfirmed="{ item }">
-        {{ item.emailConfirmed ? "Si" : "No" }}
+        <v-chip
+          v-if="item.emailConfirmed"
+          class="ma-2"
+          color="green"
+          text-color="white"
+          small
+        >
+          Si
+        </v-chip>
+        <v-chip
+          v-if="!item.emailConfirmed"
+          class="ma-2"
+          color="red"
+          text-color="white"
+          small
+        >
+          No
+        </v-chip>
       </template>
       <template v-slot:item.actions="{ item }">
         <v-icon small @click="deleteItem(item)"> mdi-delete </v-icon>

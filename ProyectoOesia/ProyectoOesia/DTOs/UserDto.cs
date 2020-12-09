@@ -26,4 +26,15 @@ namespace ProyectoOesia.DTOs
 
 
     }
+    public class UserDtoContact
+    {
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Email { get; set; }
+        public string Ext { get; set; }
+        public string Phone { get; set; }
+        public byte[] Avatar { get; set; }
+
+
+    }
 }

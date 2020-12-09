@@ -17,7 +17,8 @@
           </v-list-item-avatar>
 
           <v-list-item-content>
-            <v-list-item-title>{{user.name}}</v-list-item-title>
+            <v-list-item-title v-if="role!='Admin'">{{user.name}}</v-list-item-title>
+            <v-list-item-subtitle v-if="role=='Admin'">{{user.name}} | Administrador</v-list-item-subtitle>
             <v-list-item-subtitle>{{user.email}}</v-list-item-subtitle>
             <v-list-item-subtitle v-if="user.company">{{user.company.companyName}}</v-list-item-subtitle>
           </v-list-item-content>
@@ -81,27 +82,27 @@ export default class Menu extends Vue {
     console.log(this.role);
     if(this.role == 'Admin') {
       return [
-        { title: "Compañias", icon: "mdi-home", path:"admin" },
-        { title: "Usuarios", icon: "mdi-account-settings", path:"users" },
+        { title: "Gestionar compañias", icon: "mdi-home", path:"admin" },
+        { title: "Gestionar usuarios", icon: "mdi-account-settings", path:"users" },
       ];
     }
     else if(this.role == 'Worker' && this.hasCompany) {
       return [
-        { title: "Contactos", icon: "mdi-account-settings", path:"contacts" },
-        { title: "Modificar Empresa", icon: "mdi-account-settings", path:"update" },
-        { title: "Perfil", icon: "mdi-account-settings", path:"profile" },
+        { title: "Ver contactos", icon: "mdi-account-settings", path:"contacts" },
+        { title: "Modificar empresa", icon: "mdi-account-settings", path:"update" },
+        { title: "Modificar perfil", icon: "mdi-account-settings", path:"profile" },
       ];
     } 
     else if(this.role == 'Worker' && !this.hasCompany) {
       return [
-        { title: "Crear Empresa", icon: "mdi-account-settings", path:"new" },
-        { title: "Perfil", icon: "mdi-account-settings", path:"profile" },
+        { title: "Crear empresa", icon: "mdi-account-settings", path:"new" },
+        { title: "Modificar perfil", icon: "mdi-account-settings", path:"profile" },
       ];
     } 
     else {
       return [
-        { title: "Perfil", icon: "mdi-account-settings", path:"profile" },
-        { title: "Empresas", icon: "mdi-account-settings", path:"companies" },
+        { title: "Buscar oferta", icon: "mdi-account-settings", path:"companies" },
+        { title: "Modificar perfil", icon: "mdi-account-settings", path:"profile" },
       ];
     }
   }

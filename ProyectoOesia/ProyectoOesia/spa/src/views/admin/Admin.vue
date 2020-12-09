@@ -1,13 +1,26 @@
-
-
 <template>
   <div>
     <v-data-table
       :headers="headers"
       :items="companies"
-      sort-by="calories"
+      sort-by="identifier"
       class="elevation-1"
+      mobile-breakpoint="850"
+      :calculate-widths="true"
+      :single-expand="true"
+      :expanded.sync="expanded"
+      item-key="id"
+      show-expand
     >
+      <template v-slot:expanded-item="{item }">
+        <td :colspan="6" style="background-color:#BBDEFB">
+            Dirección: {{ item.address }}
+            {{ item.pc }}
+            {{ item.city }}
+            {{ item.province }}
+            {{ item.country }}
+        </td>
+      </template>
       <template v-slot:top>
         <v-toolbar flat>
           <v-toolbar-title>Compañias</v-toolbar-title>
@@ -51,15 +64,10 @@ export default class Admin extends Vue {
   public dialog = false;
   public dialogDelete = false;
   public headers = [
-    { text: "Identificador", value: "identifier" },
+    { text: "Identificador", value: "id" },
     { text: "Compañia", value: "companyName" },
     { text: "Email", value: "email" },
     { text: "Telefono", value: "phone" },
-    { text: "Dirección", value: "address" },
-    { text: "Código postal", value: "pc" },
-    { text: "Ciudad", value: "city" },
-    { text: "Provincia", value: "province" },
-    { text: "País", value: "country" },
     { text: "", value: "actions", sortable: false },
   ];
 

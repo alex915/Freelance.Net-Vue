@@ -87,7 +87,7 @@ export default class Login extends Vue {
           this.$spinner.removeSpinner();
           this.$store.dispatch("setUser", x.data);
           console.log(x.data);
-          if (x.data.company.id != -1) {
+          if (x.data.company?.id != -1) {
             this.$router.push({ name: "New Company" });
           } else {
             this.$router.push({ name: "Home" });
