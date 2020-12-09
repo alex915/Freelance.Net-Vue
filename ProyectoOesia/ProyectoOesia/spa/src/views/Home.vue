@@ -2,7 +2,11 @@
   <div class="home">
     <img alt="Vue logo" src="../assets/logo.png">
     {{ token }}
+  <div>
+    
+    </div>
   </div>
+  
 </template>
 
 <script lang="ts">

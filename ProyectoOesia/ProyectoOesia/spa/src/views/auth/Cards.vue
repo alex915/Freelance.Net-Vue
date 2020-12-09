@@ -16,20 +16,6 @@
           </v-img>
         </v-card>
       </v-flex>
-      <v-flex xs12 sm6>
-        <v-card><!--info de la BBDD-->
-          <v-img src="">
-            <v-card-title>
-                <h2>Nombre empresa</h2>
-            </v-card-title>
-            <v-card-text>
-                <p>Descripción de la empresa</p>
-            </v-card-text>
-            <v-card-action>
-                <v-btn color="info" flat>Contacto</v-btn>
-          </v-img>
-        </v-card>
-      </v-flex>
     </v-layout>
   </v-container>
 </template>
