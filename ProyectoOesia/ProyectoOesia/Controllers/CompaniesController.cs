@@ -31,7 +31,24 @@ namespace ProyectoOesia.Controllers
         [HttpGet("all")]
         public async Task<ActionResult> GetAllCompanies()
         {
-            return Ok(await _context.Companies.Include(x=> x.Activity).ToListAsync());
+            var companies = await _context.Companies.Include(x => x.Activity).ToListAsync();
+            foreach (var company in companies)
+            {
+
+
+
+
+
+
+
+                company.Activity = new Activity
+                {
+                    Id = company.Activity.Id,
+                    Description = company.Activity.Description,
+                    Title = company.Activity.Title
+                };
+            }
+            return Ok(companies);
         }
 
         [HttpGet("{id}")]

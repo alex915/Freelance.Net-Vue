@@ -39,7 +39,9 @@ export default class Admin extends Vue {
     companiesService
       .getCompanies()
       .then((response: AxiosResponse) => {
-        this.companies = response.data.$values;
+        console.log(response.data);
+        
+        this.companies = response.data.$values.filter((x: any) => !!x.$id);
       })
       .finally(this.$spinner.removeSpinner());
   }
