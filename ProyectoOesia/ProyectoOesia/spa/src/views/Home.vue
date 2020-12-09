@@ -7,15 +7,21 @@
     <div v-if="user && user.companyId != null">
       {{ user.company }}
     </div>
+
+    <appsearch/>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { authService } from "@/services/auth.service";
+import Search from "@/components/Search.vue";
+
 
 @Component({
-  components: {},
+  components: {
+    "appsearch":Search
+  },
 })
 export default class Home extends Vue {
   public user = null;

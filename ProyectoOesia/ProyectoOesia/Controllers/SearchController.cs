@@ -80,7 +80,7 @@ namespace ProyectoOesia.Controllers
             return Ok(data);
 
         }
-        [HttpGet("hola")]
+        [HttpGet("latlong")]
 
         public async Task<IActionResult> HaversineDistance(double pos1Lat, double pos1Lng, double pos2Lat, double pos2Lng)
         {
