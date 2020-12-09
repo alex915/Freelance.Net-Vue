@@ -144,6 +144,13 @@ namespace ProyectoOesia
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");
             });
+            //app.UseEndpoints(endpoints =>
+            //{
+            //    endpoints.MapControllerRoute(
+            //        name: "default",
+            //        pattern: "{controller=Swagger}/{action=Index}/{id?}");
+            //    endpoints.MapRazorPages();
+            //});
             app.UseSpa(x => { 
                 x.Options.SourcePath = "spa";
                 x.UseVueCli(npmScript: "serve", port: 8080);

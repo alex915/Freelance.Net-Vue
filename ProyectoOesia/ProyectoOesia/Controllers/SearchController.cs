@@ -94,6 +94,7 @@ namespace ProyectoOesia.Controllers
             var h2 = 2 * Math.Asin(Math.Min(1, Math.Sqrt(h1)));
             return R * h2;
         }
+        public enum DistanceUnit {Kilometers};
 
 
 
