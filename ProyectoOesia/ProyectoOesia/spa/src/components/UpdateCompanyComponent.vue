@@ -430,7 +430,11 @@ export default class UpdateCompanyComponent extends Vue {
       phone: this.phone,
       email: this.email,
       activityId: this.activityId,
-      maxDistance: this.remoteWork ? -1 : this.maxDistance,
+      maxDistance: this.remoteWork ? -1 : this.maxDistance == 25
+                    ? 1
+                    : this.maxDistance == 0
+                    ? 0
+                    : this.maxDistance - 25,
       description: this.description,
       availability: this.availability,
       image : this.image,

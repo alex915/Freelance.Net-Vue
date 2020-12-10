@@ -9,7 +9,7 @@
     prominent
     dense
     class="mleft expand"
-    scroll-threshold="100"
+    scroll-threshold="60"
     :floating="false"
   >
     <template v-slot:img="{ props }">
@@ -30,6 +30,7 @@
         rounded
         filled
         dense
+        v-model="search"
       ></v-text-field>
 
       <v-select
@@ -78,6 +79,7 @@
         rounded
         filled
         dense
+        v-model="city"
       ></v-text-field>
 
       <v-dialog v-if="!actGeo && !actRem" v-model="dialog" width="500">
@@ -145,7 +147,7 @@
         </div>
       </v-dialog>
       <v-spacer></v-spacer>
-      <v-btn dark icon>
+      <v-btn dark icon @click="clear">
         <v-icon>mdi-close</v-icon>
       </v-btn>
     </template>
@@ -163,14 +165,16 @@ import { activitiesService } from "@/services/activities.service";
 })
 export default class SearchBar extends Vue {
   public actGeo = false;
-  public actFull = false;
-  public actRem = false;
   public lng = 0;
   public lat = 0;
-  public activities = [];
-  public activityId = 0;
-  public dialog = false;
   public maxDistance = 0;
+  public activityId = 0;
+  public search = "";
+  public city = "";
+  public remote = false;
+  public fulltime = false;
+  public activities = [];
+  public dialog = false;
   public ticks = [
     "0",
     "1",
@@ -194,10 +198,10 @@ export default class SearchBar extends Vue {
     return !this.actGeo ? "white" : "black";
   }
   public get actFullColor() {
-    return this.actFull ? "white" : "black";
+    return this.fulltime ? "white" : "black";
   }
   public get actRemColor() {
-    return this.actRem ? "white" : "black";
+    return this.remote ? "white" : "black";
   }
   public created() {
     this.$spinner.showSpinner();
@@ -212,10 +216,10 @@ export default class SearchBar extends Vue {
   }
 
   public fulltimed() {
-    this.actFull = !this.actFull;
+    this.fulltime = !this.fulltime;
   }
   public remoted() {
-    this.actRem = !this.actRem;
+    this.remote = !this.remote;
   }
   public geoActivate() {
     this.actGeo = !this.actGeo;
@@ -233,6 +237,13 @@ export default class SearchBar extends Vue {
       }
     );
   }
+  public clear(){
+  this.maxDistance = 0;
+  this.activityId = 0;
+  this.search = "";
+  this.city = "";
+  this.remote = false;
+  this.fulltime = false;}
 }
 </script>
 
@@ -286,14 +297,14 @@ export default class SearchBar extends Vue {
     flex-wrap: wrap;
     /* height: 150px !important; */
   }
- 
+
   .select {
     max-width: 500px;
   }
 }
 @media (min-width: 750px) {
- ::v-deep .v-toolbar__content > .v-input{
-      margin: 0 10px;
+  ::v-deep .v-toolbar__content > .v-input {
+    margin: 0 10px;
   }
 }
 </style>

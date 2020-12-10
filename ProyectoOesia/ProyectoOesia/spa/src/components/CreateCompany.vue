@@ -473,7 +473,11 @@ export default class CreateCompany extends Vue {
       Email: this.email,
       ActivityId: this.activityId,
       Image: this.image,
-      MaxDistance: this.maxDistance,
+      MaxDistance: this.remoteWork ? -1 : this.maxDistance == 25
+                    ? 1
+                    : this.maxDistance == 0
+                    ? 0
+                    : this.maxDistance - 25,
       Description: this.description,
       Availability: this.availability,
       FullTime: this.fullTime,

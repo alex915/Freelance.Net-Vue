@@ -49,6 +49,6 @@ export default class Admin extends Vue {
 
 <style lang="css" scoped>
 .mtop{
-  margin-top: 240px;
+  margin-top: 180px;
 }
 </style>
