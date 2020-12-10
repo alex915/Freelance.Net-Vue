@@ -2,6 +2,7 @@
   <v-app id="app">
     <spinner />
     <headernav />
+
     <v-main>
       <v-container>
         <router-view></router-view>
@@ -19,10 +20,12 @@ import Component from "vue-class-component";
 import Spinner from "@/components/Spinner.vue";
 import Header from "./components/Header.vue";
 import Menu from "./components/Menu.vue";
+import SearchBar from "./components/SearchBar.vue";
 @Component({
   components: {
     spinner: Spinner,
     headernav: Menu,
+    searchbar: SearchBar
   },
 })
 export default class App extends Vue {}

@@ -6,7 +6,7 @@
       :expand-on-hover="expandOnHover"
       :mini-variant="miniVariant"
       :permanent="permanent"
-      src="https://cdn.vuetifyjs.com/images/backgrounds/bg-2.jpg"
+      :src="url"
       fixed
       dark
     >
@@ -63,7 +63,7 @@ export default class Menu extends Vue {
   public permanent = true;
   public miniVariant = true;
   public expandOnHover = true;
-  public background = false;
+  public url = "https://i.stack.imgur.com/xfn1X.jpg";
   
    get user(): any {
     return this.$store.getters["user"];
