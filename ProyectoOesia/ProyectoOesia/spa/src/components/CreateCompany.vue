@@ -9,6 +9,7 @@
       <v-stepper-step step="1">Datos de la empresa</v-stepper-step>
 
       <v-stepper-content step="1">
+        <span>Este numerito lo habrás escrito millones de veces. ¡Ánimo una vez más! Escríbenos tus datos más formales. Ya vendrán los apartados donde puedes ser más original y diferenciarte con tu marca personal. ¡Sigue adelante! </span>
         <v-row>
           <v-col cols="12" lg="3">
             <v-text-field
@@ -49,6 +50,7 @@
       <v-stepper-step step="2">Datos de Localizacion</v-stepper-step>
 
       <v-stepper-content step="2">
+        <span>¿Dónde se localiza tu negocio? Esto será muy importante para encontrar a tus potenciales clientes. En la era del click, la cercanía y rapidez son muy valiosas. Escribe la información de manera detallada. ¡Queremos que te encuentre todo el mundo!</span>
         <v-row>
           <v-col cols="12" sm="8" md="12" lg="4" order-sm="1">
             <v-text-field
@@ -99,6 +101,7 @@
       <v-stepper-step step="3"> Datos de contacto </v-stepper-step>
 
       <v-stepper-content step="3">
+        <span>En FreelanceNet ayudamos a digitalizar tu negocio. Tus clientes te pueden llamar, sí. Pero no olvidemos que un email hoy en día es indispensable. Por eso, aquí está el apartado para ello. Así tus potenciales clientes tienen varias maneras de contactar contigo y tus servicio/producto. No te límites, la clientela nunca se sabe cómo prefiere interactuar contigo :)</span>
         <v-row>
           <v-col cols="4" sm="3" lg="2">
             <v-text-field
@@ -140,6 +143,7 @@
       </v-stepper-step>
 
       <v-stepper-content step="4">
+        <span>¿Trabajas desde casa? ¿Estás disponible 24horas por si surge alguna urgencia? Márcalo para que tu cliente lo sepa. Esto puede crear una gran diferencia en tu negocio</span>
         <v-row class="start">
           <v-col cols="12" sm="6">
             <v-switch v-model="remoteWork" label="Trabajo remoto"></v-switch>
@@ -230,6 +234,7 @@
       <v-stepper-content step="6">
         <v-img :src="url" height="150px"></v-img>
 
+<span>Te mostramos un resumen de tus datos. ¿Está todo bien? ¡PERFECTO! Seguimos adelante. Ya queda menos para que puedas beneficiarte de todas las oportunidades que te ofrece FreelanceNet</span>
         <v-row>
           <v-col cols="12" lg="3">
             <v-text-field
@@ -503,7 +508,7 @@ export default class CreateCompany extends Vue {
 </script>
 <style scoped>
 .v-stepper--vertical .v-stepper__content {
-  padding: 100px 120px 10px 90px;
+  padding: 60px 120px 10px 90px;
   display: flex;
   justify-content: center;
 }

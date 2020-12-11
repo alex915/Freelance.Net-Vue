@@ -4,7 +4,7 @@ class SearchService {
     
     //llama a la api mediante axios y devuelve la promesa
     public searching(q: string) {
-        return Axios.get(`./api/search?search=${q}`);
+        return Axios.get(`./api/search?${q}`);
     }
 
  

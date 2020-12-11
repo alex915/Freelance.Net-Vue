@@ -10,16 +10,16 @@
     </v-card-title>
 
     <v-card-subtitle class="text-align-left">
-      {{ company.activity.description }}
+      {{ company.description }}
     </v-card-subtitle>
-    <v-card-subtitle class="text-align-left" >
-      <v-btn text :href="'mailTo:' + company.email">
+    <div class="text-align-left flex">
+      <a class="no__dec" text :href="'mailTo:' + company.email">
         {{ company.email }}
-        </v-btn>
-      <v-btn text :href="'tel:+' + company.ext + company.phone">
+      </a>
+      <a class="no__dec" text :href="'tel:+' + company.ext + company.phone">
         {{ company.phone }}
-        </v-btn>
-    </v-card-subtitle>
+      </a>
+    </div>
 
     <v-card-subtitle>
       <v-chip-group column>
@@ -33,13 +33,8 @@
     </v-card-subtitle>
 
     <v-card-actions>
-      <v-btn text> Detalle </v-btn>
-      <!-- <v-btn color="blue" link :href="'mailTo:' + company.email" text
-        >Contacto</v-btn
-      > -->
-      <v-btn color="blue" @click="contact" text
-        >Contacto</v-btn
-      >
+      
+      <v-btn color="blue" @click="contact" text>Contacto</v-btn>
 
       <v-spacer></v-spacer>
 
@@ -93,14 +88,28 @@ export default class CompanyCard extends Vue {
       .contact(this.company.id)
       .then((x) => console.log("Contacted"))
       .finally(this.$spinner.removeSpinner());
+  
   }
 }
 </script>
 
 <style>
+a.no__dec{
+  color:black;
+  text-decoration: none;
+}
+a.no__dec:hover{
+  color:orange;
+}
 .text-align-left {
   text-align: left;
   padding-bottom: 0;
+}
+.flex {
+  display: flex;
+  flex-direction: column;
+  padding: 18px;
+  
 }
 
 .v-slide-group__content {

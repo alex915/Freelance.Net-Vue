@@ -1,4 +1,5 @@
 ﻿using Data;
+using Geolocation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -23,21 +24,62 @@ namespace ProyectoOesia.Controllers
 
         }
         [HttpGet]
-        public async Task<IActionResult> SearchWorkers(string search)
+        public async Task<IActionResult> SearchWorkers(string? search, double? lat, double? lng, int? maxDistance, int? activityId, string? city, bool? remote, bool? fulltime)
         {
-            var data = await _context.Activity.Where(x => x.Description.Contains(search)).ToListAsync();
-            if (data.Count != 0)
+            var data = _context.Companies.AsEnumerable();
+
+            if (!string.IsNullOrEmpty(search))
             {
-                return Ok(data);
+                data = data.Where(x => x.Description.ToLower().Contains(search.ToLower()) || x.CompanyName.ToLower().Contains(search.ToLower()));
+
+            }
+
+            if (remote == true)
+            {
+                data = data.Where(x => x.MaxDistance == -1);
 
             }
             else
             {
-                return NotFound("NO EXISTE NA!");
+                if (lat != null && lng != null && maxDistance != null)
+                {
+                    data = data.Where(x =>
+                       ( x.MaxDistance >= GetDistanceHaversine(lat, lng, x.Latitude, x.Longitude) &&
+                     maxDistance >= GetDistanceHaversine(lat, lng, x.Latitude, x.Longitude))|| x.MaxDistance == -1
+                    );
+
+                }
+
             }
 
+            if (!string.IsNullOrEmpty(city))
+            {
+                data = data.Where(x => x.City.ToLower().Contains(city.ToLower()));
+            }
 
+            if (fulltime == true)
+            {
+                data = data.Where(x => x.FullTime == fulltime);
+            }
+            if (activityId != null)
+            {
+                data = data.Where(x => x.ActivityId == activityId);
+            }
+            return Ok(data.ToList());
         }
 
+        private int GetDistanceHaversine(double? pos1Lat, double? pos1Lng, double? pos2Lat, double? pos2Lng)
+        {
+            double R = 3960;
+            var lat = ((double)(pos2Lat - pos1Lat)).ToRadian();
+            var lng = ((double)(pos2Lng - pos1Lng)).ToRadian();
+            var h1 = Math.Sin(lat / 2) * Math.Sin(lat / 2) +
+                          Math.Cos(((double)pos1Lat).ToRadian()) * Math.Cos(((double)pos2Lat).ToRadian()) *
+                          Math.Sin(lng / 2) * Math.Sin(lng / 2);
+            var h2 = 2 * Math.Asin(Math.Min(1, Math.Sqrt(h1)));
+            var result = (int)(R * h2);
+            return result;
+
+        }
     }
 }

@@ -1,6 +1,23 @@
 <template>
+
   <div class="updateUser">
-    <div class="shadow">
+     <v-app-bar
+     fixed
+      color="#359ff4"
+      dark
+      dense
+      class="mleft expand"
+      scroll-threshold="60"
+      :floating="false"
+    >
+      <v-spacer></v-spacer>
+      
+      <v-toolbar-title>Freelance.Net</v-toolbar-title>
+      <v-spacer></v-spacer>
+
+
+    </v-app-bar>
+    <div class="shadow mitop">
       <v-row justify="center">
         <v-col class="padding" cols="11" sm="12" md="12" lg="8">
           <v-form
@@ -299,6 +316,9 @@ a {
 }
 .padding {
   padding: 60px;
+}
+.mitop{
+  margin-top: 45px;
 }
 .shadow {
   background-color: white;

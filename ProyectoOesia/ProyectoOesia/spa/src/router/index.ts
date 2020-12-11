@@ -16,7 +16,7 @@ function authGuard(to: any, from: any, next: any) {
   } else if(store.state.rol && stateRole === roleAdmin) {
     next('/admin');
   } else {
-    next('/login');
+    next('/');
   }
 }
 function userGuard(to: any, from: any, next: any) {
@@ -26,7 +26,7 @@ function userGuard(to: any, from: any, next: any) {
   } else if(store.state.rol && stateRole !== roleUser) {
     next('/');
   } else {
-    next('/login');
+    next('/');
   }
 }
 function workerGuard(to: any, from: any, next: any) {
@@ -36,7 +36,7 @@ function workerGuard(to: any, from: any, next: any) {
   } else if(store.state.rol && stateRole !== roleWorker) {
     next('/');
   } else {
-    next('/login');
+    next('/');
   }
 }
 
@@ -63,7 +63,6 @@ const routes: Array<RouteConfig> = [
   {
     path: '/',
     name: 'Home',
-    beforeEnter: authGuard,
     component: Home
   },
   {

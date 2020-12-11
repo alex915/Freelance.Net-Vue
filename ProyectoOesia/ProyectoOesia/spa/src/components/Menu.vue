@@ -11,7 +11,7 @@
       dark
     >
       <v-list dense nav class="py-0 list-container">
-        <v-list-item two-line :class="miniVariant && 'px-0'">
+        <v-list-item  v-if="token"  two-line :class="miniVariant && 'px-0'">
           <v-list-item-avatar>
             <img :src="'data:image/jpg;base64,'+ user.avatar " srcset="..\assets\profile-user.png"  />
           </v-list-item-avatar>
@@ -36,7 +36,7 @@
             </v-list-item-content>
         </v-list-item>
         
-        <v-list-item class="logout" @click="logout" link>
+        <v-list-item v-if="token" class="logout" @click="logout" link>
           
             <v-list-item-icon>
               <v-icon>mdi-logout</v-icon>
@@ -63,7 +63,7 @@ export default class Menu extends Vue {
   public permanent = true;
   public miniVariant = true;
   public expandOnHover = true;
-  public url = "https://i.stack.imgur.com/xfn1X.jpg";
+  public url = "";
   
    get user(): any {
     return this.$store.getters["user"];
@@ -88,28 +88,33 @@ export default class Menu extends Vue {
     }
     else if(this.role == 'Worker' && this.hasCompany) {
       return [
-        { title: "Ver contactos", icon: "mdi-account-settings", path:"contacts" },
-        { title: "Modificar empresa", icon: "mdi-account-settings", path:"update" },
+        { title: "Ver contactos", icon: "mdi-contacts", path:"contacts" },
+        { title: "Modificar empresa", icon: "mdi-domain", path:"update" },
         { title: "Modificar perfil", icon: "mdi-account-settings", path:"profile" },
       ];
     } 
     else if(this.role == 'Worker' && !this.hasCompany) {
       return [
-        { title: "Crear empresa", icon: "mdi-account-settings", path:"new" },
+        { title: "Crear empresa", icon: "mdi-domain", path:"new" },
         { title: "Modificar perfil", icon: "mdi-account-settings", path:"profile" },
       ];
     } 
-    else {
+    else if(this.role == 'User'){
       return [
-        { title: "Buscar oferta", icon: "mdi-account-settings", path:"companies" },
+        { title: "Buscar oferta", icon: "mdi-magnify", path:"companies" },
         { title: "Modificar perfil", icon: "mdi-account-settings", path:"profile" },
+      ];
+    }else {
+      return [
+        { title: "Registrarse", icon: "mdi-magnify", path:"register" },
+        { title: "Iniciar Sesión", icon: "mdi-account-settings", path:"login" },
       ];
     }
   }
 
   public logout(): void {
     this.$store.dispatch("clear");
-    this.$router.push({ name: 'Login' });
+    this.$router.push({ name: '/' });
   }
 
 }

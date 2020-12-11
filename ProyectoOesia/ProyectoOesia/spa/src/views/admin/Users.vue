@@ -2,11 +2,27 @@
 
 <template>
   <div>
+     <v-app-bar
+     fixed
+      color="#359ff4"
+      dark
+      dense
+      class="mleft expand"
+      scroll-threshold="60"
+      :floating="false"
+    >
+      <v-spacer></v-spacer>
+      
+      <v-toolbar-title>Freelance.Net</v-toolbar-title>
+      <v-spacer></v-spacer>
+
+
+    </v-app-bar>
     <v-data-table
       :headers="headers"
       :items="users"
       sort-by="email"
-      class="elevation-1"
+      class="elevation-1 mitop"
       mobile-breakpoint="850"
       :calculate-widths="true"
       item-key="identifier"
@@ -133,5 +149,8 @@ export default class Users extends Vue {
 }
 </script>
 
-<style>
+<style scoped>
+.mitop{
+  margin-top: 55px;
+}
 </style>

@@ -1,6 +1,22 @@
 <template>
   <div>
-    <update-company />
+     <v-app-bar
+     fixed
+      color="#359ff4"
+      dark
+      dense
+      class="mleft expand"
+      scroll-threshold="60"
+      :floating="false"
+    >
+      <v-spacer></v-spacer>
+      
+      <v-toolbar-title>Freelance.Net</v-toolbar-title>
+      <v-spacer></v-spacer>
+
+
+    </v-app-bar>
+    <update-company class="mitop" />
   </div>
 </template>
 
@@ -26,5 +42,9 @@ export default class UpdateCompany extends Vue {
 }
 </script>
 
-<style>
+<style scoped>
+.mitop{
+  margin-top: 100px;
+}
+
 </style>

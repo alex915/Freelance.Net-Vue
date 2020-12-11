@@ -1,7 +1,23 @@
 
   <template>
   <div class="padding">
-    <div>
+     <v-app-bar
+     fixed
+      color="#359ff4"
+      dark
+      dense
+      class="mleft expand"
+      scroll-threshold="60"
+      :floating="false"
+    >
+      <v-spacer></v-spacer>
+      
+      <v-toolbar-title>Freelance.Net</v-toolbar-title>
+      <v-spacer></v-spacer>
+
+
+    </v-app-bar>
+    <div class="mitop">
       <v-row class="fill-height">
         <v-col>
           <v-sheet height="64">
@@ -245,6 +261,9 @@ export default class Contacts extends Vue {
 <style scoped>
 .padding {
   padding: 10px;
+}
+.mitop{
+  margin-top: 45px;
 }
 .padding > div {
   background-color: white;
